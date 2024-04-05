@@ -1,5 +1,4 @@
-package org.sopt.practice.controller.dto;
-
+package org.sopt.springFirstSeminar.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,10 +6,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class ApiResponse {
-    private String content;
+    String content;
 
     public static ApiResponse create(String content) {
         return new ApiResponse(content);
     }
-
 }
