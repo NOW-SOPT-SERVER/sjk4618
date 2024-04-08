@@ -87,6 +87,63 @@ public class Bank {
         }
     }
 
+    public void transfer() {
+        while (true) {
+            System.out.print("송금할 계좌번호를 입력하세요: ");
+            String senderAccountNumber = scanner.nextLine();
+
+            if (accounts.containsKey(senderAccountNumber)) {   //보내는 계좌번호 입력이 맞다면 실행
+                Account senderAccount = accounts.get(senderAccountNumber);
+
+                System.out.print("비밀번호를 입력하세요: ");
+                String password = scanner.nextLine();
+
+                if (senderAccount.checkPassword(password)) {   //보내는 계좌번호의 비번이 맞다면 실행
+                    System.out.print("수취인 계좌번호를 입력하세요: ");
+                    String recipientAccountNumber = scanner.nextLine();
+
+                    while (!accounts.containsKey(recipientAccountNumber)) { //수취인 계좌번호가 틀리면 계속 받아옴
+                        System.out.print("없는 계좌번호입니다. 수취인 계좌번호를 다시 입력하세요: ");
+                        recipientAccountNumber = scanner.nextLine();
+                    }
+                    //수취인 계좌번호가 맞으면 실행
+                    Account recipientAccount = accounts.get(recipientAccountNumber);
+                    int amount = inputAmount();
+                    senderAccount.transfer(recipientAccount, amount);
+                    return;
+                } else {    //보내는 계좌번호의 비번이 틀리다면 실행
+                    System.out.println("비밀번호가 일치하지 않습니다.");
+                    return;
+                }
+            } else {    //보내는 계좌번호가 틀리다면 실행
+                System.out.println("해당 계좌가 존재하지 않습니다. 다시 입력하세요.");
+            }
+
+
+//            Account senderAccount = accounts.get(senderAccountNumber);
+//            if (senderAccount != null) {
+//                System.out.print("비밀번호를 입력하세요: ");
+//                String password = scanner.nextLine();
+//                if (senderAccount.checkPassword(password)) {
+//                    System.out.print("수취인 계좌번호를 입력하세요: ");
+//                    String recipientAccountNumber = scanner.nextLine();
+//                    Account recipientAccount = accounts.get(recipientAccountNumber);
+//                    if (recipientAccount != null) {
+//                        int amount = inputAmount();
+//                        senderAccount.transfer(recipientAccount, amount);
+//                        return;
+//                    } else {
+//                        System.out.println("수취인 계좌가 존재하지 않습니다. 다시 입력하세요.");
+//                    }
+//                } else {
+//                    System.out.println("비밀번호가 일치하지 않습니다. 다시 입력하세요.");
+//                }
+//            } else {
+//                System.out.println("해당 계좌가 존재하지 않습니다. 다시 입력하세요.");
+//            }
+        }
+    }
+
     public void checkBalance() {
         while (true) {
             System.out.print("계좌번호를 입력하세요: ");
