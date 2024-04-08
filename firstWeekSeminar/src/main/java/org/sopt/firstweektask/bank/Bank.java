@@ -57,7 +57,7 @@ public class Bank {
                     return;
                 }
             } else {
-                System.out.println("해당 계좌가 존재하지 않습니다.");
+                System.out.println("해당 계좌가 존재하지 않습니다. 다시 입력하세요.");
             }
         }
     }
@@ -66,16 +66,20 @@ public class Bank {
         while (true) {
             System.out.print("계좌번호를 입력하세요: ");
             String accountNumber = scanner.nextLine();
-            Account account = accounts.get(accountNumber);
-            if (account != null) {
+
+            if (accounts.containsKey(accountNumber)) {
+                Account account = accounts.get(accountNumber);
+
                 System.out.print("비밀번호를 입력하세요: ");
                 String password = scanner.nextLine();
+
                 if (account.checkPassword(password)) {
                     int amount = inputAmount();
                     account.withdraw(amount);
                     return;
                 } else {
-                    System.out.println("비밀번호가 일치하지 않습니다. 다시 입력하세요.");
+                    System.out.println("비밀번호가 일치하지 않습니다.");
+                    return;
                 }
             } else {
                 System.out.println("해당 계좌가 존재하지 않습니다. 다시 입력하세요.");
