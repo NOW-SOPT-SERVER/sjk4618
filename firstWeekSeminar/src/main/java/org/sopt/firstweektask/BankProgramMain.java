@@ -19,7 +19,7 @@ public class BankProgramMain {
             System.out.println("5. 프로그램 종료");
             System.out.print("메뉴 선택: ");
             choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:

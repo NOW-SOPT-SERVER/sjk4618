@@ -18,18 +18,23 @@ public class Bank {
     public void createAccount() {
         System.out.print("이름을 입력하세요: ");
         String name = scanner.nextLine();
+
         System.out.print("계좌번호를 입력하세요: ");
         String accountNumber = scanner.nextLine();
+        //이미 있는 계좌번호면 다시 입력받기
+        while (accounts.containsKey(accountNumber)) {
+            System.out.println("이미 존재하는 계좌번호입니다. 다른 계좌번호를 입력하세요.");
+            System.out.print("계좌번호를 다시 입력하세요: ");
+            accountNumber = scanner.nextLine();
+        }
+
         System.out.print("비밀번호를 입력하세요: ");
         String password = scanner.nextLine();
 
-        if (accounts.containsKey(accountNumber)) {
-            System.out.println("이미 존재하는 계좌번호입니다. 다른 계좌번호를 입력하세요.");
-        } else {
-            Account account = new Account(name, accountNumber, password);
-            accounts.put(accountNumber, account);
-            System.out.println("계좌가 생성되었습니다.");
-        }
+        Account account = new Account(name, accountNumber, password);
+        accounts.put(accountNumber, account);
+        System.out.println("계좌가 생성되었습니다.");
+
     }
 
     public void deposit() {
