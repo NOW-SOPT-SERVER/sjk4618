@@ -11,7 +11,9 @@ public class BankProgramMain {
         int choice;
 
         do {
+            System.out.println("--------------------------------------------------------------");
             System.out.println("은행 프로그램 메뉴");
+            System.out.println("--------------------------------------------------------------");
             System.out.println("1. 계좌 생성");
             System.out.println("2. 입금");
             System.out.println("3. 출금");
