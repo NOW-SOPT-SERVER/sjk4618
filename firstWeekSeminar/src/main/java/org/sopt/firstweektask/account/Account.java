@@ -1,6 +1,6 @@
 package org.sopt.firstweektask.account;
 
-public class Account {
+public class Account implements AccountInterface {
     private String name;
     private String accountNumber;
     private int balance;
@@ -45,7 +45,7 @@ public class Account {
         System.out.println("잔액은 " + balance + "원 입니다.");
     }
 
-    public void transfer(Account recipient, int amount) {
+    public void transfer(AccountInterface recipient, int amount) {
         if (amount <= 0) {
             System.out.println("이체할 금액은 0원보다 커야 합니다.");
             return;
@@ -57,12 +57,16 @@ public class Account {
         }
         balance -= amount;
         recipient.deposit(amount);
-        System.out.println(amount + "원을 " + recipient.name + "님에게 이체했습니다.");
+        System.out.println(amount + "원을 " + ((Account)recipient).getName() + "님에게 이체했습니다.");
         System.out.println("잔액은 " + balance + "원 입니다.");
     }
 
     public int getBalance() {
         return balance;
+    }
+
+    public String getName() {
+        return name;
     }
 }
 
