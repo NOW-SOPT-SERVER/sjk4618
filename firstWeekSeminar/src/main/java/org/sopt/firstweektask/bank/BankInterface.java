@@ -10,6 +10,4 @@ public interface BankInterface {
     public abstract void transfer();
     public abstract void checkBalance();
     public abstract void closeScanner();
-    public abstract void addAccount(String accountNumber, AccountInterface account);
-    public abstract AccountInterface getAccount(String accountNumber);
 }
