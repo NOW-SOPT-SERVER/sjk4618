@@ -28,7 +28,7 @@ public class Account implements AccountInterface {
         }
         balance += amount;
         System.out.println(amount + "원이 입금되었습니다.");
-        System.out.println("잔액은 " + balance + "원 입니다.");
+        printRemainBalance(balance);
     }
 
     public void withdraw(int amount) {
@@ -42,7 +42,7 @@ public class Account implements AccountInterface {
         }
         balance -= amount;
         System.out.println(amount + "원이 출금되었습니다.");
-        System.out.println("잔액은 " + balance + "원 입니다.");
+        printRemainBalance(balance);
     }
 
     public void transfer(AccountInterface recipient, int amount) {
@@ -52,21 +52,24 @@ public class Account implements AccountInterface {
         }
         if (balance < amount) {
             System.out.println("잔액이 부족합니다.");
-            System.out.println("현재 잔액은 " + balance + "원입니다.");
+            printRemainBalance(balance);
             return;
         }
         balance -= amount;
         recipient.deposit(amount);
         System.out.println(amount + "원을 " + ((Account)recipient).getName() + "님에게 이체했습니다.");
-        System.out.println("잔액은 " + balance + "원 입니다.");
+        printRemainBalance(balance);
     }
-
     public int getBalance() {
         return balance;
     }
 
     public String getName() {
         return name;
+    }
+
+    private void printRemainBalance(int balance) {
+        System.out.println("현재 잔액은 " + balance + "원 입니다.");
     }
 }
 
