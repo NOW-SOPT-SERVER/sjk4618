@@ -25,26 +25,13 @@ public class BankProgramMain {
             scanner.nextLine(); // Consume newline character
 
             switch (choice) {
-                case 1:
-                    bank.createAccount();
-                    break;
-                case 2:
-                    bank.deposit();
-                    break;
-                case 3:
-                    bank.withdraw();
-                    break;
-                case 4:
-                    bank.transfer();
-                    break;
-                case 5:
-                    bank.checkBalance();
-                    break;
-                case 6:
-                    System.out.println("프로그램을 종료합니다.");
-                    break;
-                default:
-                    System.out.println("잘못된 선택입니다. 다시 선택하세요.");
+                case 1 -> bank.createAccount();
+                case 2 -> bank.deposit();
+                case 3 -> bank.withdraw();
+                case 4 -> bank.transfer();
+                case 5 -> bank.checkBalance();
+                case 6 -> System.out.println("프로그램을 종료합니다.");
+                default -> System.out.println("잘못된 선택입니다. 다시 선택하세요.");
             }
         } while (choice != 6);
 
