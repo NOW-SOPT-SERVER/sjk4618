@@ -10,6 +10,8 @@ public class Bank implements BankInterface {
     private Map<String, Account> accounts;
     private Scanner scanner;
 
+    private final static int minimumAmount = 0;
+
     public Bank() {
         accounts = new HashMap<>();
         scanner = new Scanner(System.in);
@@ -151,7 +153,7 @@ public class Bank implements BankInterface {
             String amountStr = scanner.nextLine();
             try {
                 int amount = Integer.parseInt(amountStr);
-                if (amount <= 0) {
+                if (amount <= minimumAmount) {
                     System.out.println("금액은 0원보다 커야 합니다.");
                 } else {
                     return amount;
