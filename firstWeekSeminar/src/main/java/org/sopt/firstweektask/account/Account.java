@@ -5,12 +5,14 @@ public class Account implements AccountInterface {
     private String accountNumber;
     private int balance;
     private String password;
+    private final static int MINIMUM_AMOUNT = 0;
+
 
     public Account(String name, String accountNumber, String password) {
         this.name = name;
         this.accountNumber = accountNumber;
         this.password = password;
-        this.balance = 0;
+        this.balance = MINIMUM_AMOUNT;
     }
 
     public String getAccountNumber() {
@@ -22,7 +24,7 @@ public class Account implements AccountInterface {
     }
 
     public void deposit(int amount) {
-        if (amount <= 0) {
+        if (amount <= MINIMUM_AMOUNT) {
             System.out.println("입금할 금액은 0원보다 커야 합니다.");
             return;
         }
@@ -32,7 +34,7 @@ public class Account implements AccountInterface {
     }
 
     public void withdraw(int amount) {
-        if (amount <= 0) {
+        if (amount <= MINIMUM_AMOUNT) {
             System.out.println("출금할 금액은 0원보다 커야 합니다.");
             return;
         }
@@ -46,7 +48,7 @@ public class Account implements AccountInterface {
     }
 
     public void transfer(AccountInterface recipient, int amount) {
-        if (amount <= 0) {
+        if (amount <= MINIMUM_AMOUNT) {
             System.out.println("이체할 금액은 0원보다 커야 합니다.");
             return;
         }

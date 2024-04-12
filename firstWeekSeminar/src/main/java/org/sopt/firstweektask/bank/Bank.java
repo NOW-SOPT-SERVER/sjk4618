@@ -44,6 +44,7 @@ public class Bank implements BankInterface {
             System.out.print("계좌번호를 입력하세요: ");
             String accountNumber = scanner.nextLine();
 
+
             if (accounts.containsKey(accountNumber)) {
                 Account account = accounts.get(accountNumber);
 
@@ -94,8 +95,9 @@ public class Bank implements BankInterface {
             System.out.print("송금할 계좌번호를 입력하세요: ");
             String senderAccountNumber = scanner.nextLine();
 
-            if (accounts.containsKey(senderAccountNumber)) {   //보내는 계좌번호 입력이 맞다면 실행
-                Account senderAccount = accounts.get(senderAccountNumber);
+            Account senderAccount = checkAccountNumber(senderAccountNumber);
+
+            if (senderAccount != null) {   //보내는 계좌번호 입력이 맞다면 실행
 
                 System.out.print("비밀번호를 입력하세요: ");
                 String password = scanner.nextLine();
@@ -124,28 +126,41 @@ public class Bank implements BankInterface {
     }
 
     public void checkBalance() {
+        Account account = checkAccountAndPwd();
+        if (account != null) {
+            System.out.println("잔액은 " + account.getBalance() + "원 입니다.");
+        } else {
+            System.out.println("비밀번호가 일치하지 않습니다.");
+        }
+    }
+
+    private Account checkAccountNumber(String accountNumber) {
+        // getOrDefault : 찾는 키가 존재한다면 찾는 키의 값을 반환하고 없다면 기본 값을 반환하는 메서드
+        return accounts.getOrDefault(accountNumber, null);
+    }
+
+    private Account checkAccountAndPwd() {
         while (true) {
             System.out.print("계좌번호를 입력하세요: ");
             String accountNumber = scanner.nextLine();
 
-            if (accounts.containsKey(accountNumber)) {
-                Account account = accounts.get(accountNumber);
+            Account account = checkAccountNumber(accountNumber);
 
+            if (account != null) {
                 System.out.print("비밀번호를 입력하세요: ");
                 String password = scanner.nextLine();
 
                 if (account.checkPassword(password)) {
-                    System.out.println("잔액은 " + account.getBalance() + "원 입니다.");
-                    return;
+                    return account;
                 } else {
-                    System.out.println("비밀번호가 일치하지 않습니다.");
-                    return;
+                    return null;
                 }
             } else {
                 System.out.println("해당 계좌가 존재하지 않습니다. 다시 입력하세요.");
             }
         }
     }
+
 
     private int inputAmount() {
         while (true) {
