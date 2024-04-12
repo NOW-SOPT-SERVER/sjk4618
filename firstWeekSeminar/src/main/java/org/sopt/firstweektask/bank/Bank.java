@@ -40,88 +40,43 @@ public class Bank implements BankInterface {
     }
 
     public void deposit() {
-        while (true) {
-            System.out.print("계좌번호를 입력하세요: ");
-            String accountNumber = scanner.nextLine();
-
-
-            if (accounts.containsKey(accountNumber)) {
-                Account account = accounts.get(accountNumber);
-
-                System.out.print("비밀번호를 입력하세요: ");
-                String password = scanner.nextLine();
-
-                if (account.checkPassword(password)) {
-                    int amount = inputAmount();
-                    account.deposit(amount);
-                    return;
-                } else {
-                    System.out.println("비밀번호가 일치하지 않습니다.");
-                    return;
-                }
-            } else {
-                System.out.println("해당 계좌가 존재하지 않습니다. 다시 입력하세요.");
-            }
+        Account account = checkAccountAndPwd();
+        if (account != null) {
+            int amount = inputAmount();
+            account.deposit(amount);
+        } else {
+            System.out.println("비밀번호가 일치하지 않습니다.");
         }
     }
 
     public void withdraw() {
-        while (true) {
-            System.out.print("계좌번호를 입력하세요: ");
-            String accountNumber = scanner.nextLine();
-
-            if (accounts.containsKey(accountNumber)) {
-                Account account = accounts.get(accountNumber);
-
-                System.out.print("비밀번호를 입력하세요: ");
-                String password = scanner.nextLine();
-
-                if (account.checkPassword(password)) {
-                    int amount = inputAmount();
-                    account.withdraw(amount);
-                    return;
-                } else {
-                    System.out.println("비밀번호가 일치하지 않습니다.");
-                    return;
-                }
-            } else {
-                System.out.println("해당 계좌가 존재하지 않습니다. 다시 입력하세요.");
-            }
+        Account account = checkAccountAndPwd();
+        if (account != null) {
+            int amount = inputAmount();
+            account.withdraw(amount);
+        } else {
+            System.out.println("비밀번호가 일치하지 않습니다.");
         }
     }
 
     public void transfer() {
-        while (true) {
-            System.out.print("송금할 계좌번호를 입력하세요: ");
-            String senderAccountNumber = scanner.nextLine();
 
-            Account senderAccount = checkAccountNumber(senderAccountNumber);
+        Account senderAccount = checkAccountAndPwd();
 
-            if (senderAccount != null) {   //보내는 계좌번호 입력이 맞다면 실행
+        if (senderAccount != null) {
+            System.out.print("수취인 계좌번호를 입력하세요: ");
+            String recipientAccountNumber = scanner.nextLine();
 
-                System.out.print("비밀번호를 입력하세요: ");
-                String password = scanner.nextLine();
-
-                if (senderAccount.checkPassword(password)) {   //보내는 계좌번호의 비번이 맞다면 실행
-                    System.out.print("수취인 계좌번호를 입력하세요: ");
-                    String recipientAccountNumber = scanner.nextLine();
-
-                    while (!accounts.containsKey(recipientAccountNumber) || (senderAccountNumber.equals(recipientAccountNumber))) { //수취인 계좌번호가 틀리면 계속 받아옴
-                        System.out.print("없는 계좌번호거나 자신의 계좌번호입니다. 수취인 계좌번호를 다시 입력하세요: ");
-                        recipientAccountNumber = scanner.nextLine();
-                    }
-                    //수취인 계좌번호가 맞으면 실행
-                    Account recipientAccount = accounts.get(recipientAccountNumber);
-                    int amount = inputAmount();
-                    senderAccount.transfer(recipientAccount, amount);
-                    return;
-                } else {    //보내는 계좌번호의 비번이 틀리다면 실행
-                    System.out.println("비밀번호가 일치하지 않습니다.");
-                    return;
-                }
-            } else {    //보내는 계좌번호가 틀리다면 실행
-                System.out.println("해당 계좌가 존재하지 않습니다. 다시 입력하세요.");
+            while (!accounts.containsKey(recipientAccountNumber) || (senderAccount.getAccountNumber().equals(recipientAccountNumber))) { //수취인 계좌번호가 틀리면 계속 받아옴
+                System.out.print("없는 계좌번호거나 자신의 계좌번호입니다. 수취인 계좌번호를 다시 입력하세요: ");
+                recipientAccountNumber = scanner.nextLine();
             }
+            //수취인 계좌번호가 맞으면 실행
+            Account recipientAccount = accounts.get(recipientAccountNumber);
+            int amount = inputAmount();
+            senderAccount.transfer(recipientAccount, amount);
+        } else {
+            System.out.println("비밀번호가 일치하지 않습니다.");
         }
     }
 
