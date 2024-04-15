@@ -20,7 +20,7 @@ public class MemberService {
 
     @Transactional //데이터베이스의 변경사항을 적용하는(있을때) 어노테이션
     public String createMember(final MemberCreateDTO memberCreateDTO) { //final 이유 : 인자의 불변성보장
-        Member member = Member.create(memberCreateDTO.name(),memberCreateDTO.part(), memberCreateDTO.age());
+        Member member = Member.create(memberCreateDTO.name(), memberCreateDTO.part(), memberCreateDTO.age());
         memberRepository.save(member);
         return member.getId().toString();
     }
@@ -45,7 +45,7 @@ public class MemberService {
         // .map : 스트림의 각 요소에 대해 MemberDataDTO 객체로 변환하는 작업을 수행함
         // MemberDataDTO.of(member)는 회원 객체를 MemberDataDTO로 변환하는 정적 메서드임
         //.toList : 스트림을 리스트로 변환
-        memberRepository.findAll().stream().map(member -> MemberDataDTO.of(member)).toList();
+        return memberRepository.findAll().stream().map(member -> MemberDataDTO.of(member)).toList();
     }
 
 
