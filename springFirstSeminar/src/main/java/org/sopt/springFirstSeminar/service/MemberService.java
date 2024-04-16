@@ -41,7 +41,7 @@ public class MemberService {
 
     public List<MemberDataDTO> getAllMemberList() {
 
-        // .string : 메서드가 반환한 컬렉션을 스트림으로 변환함, 트림을 사용하면 데이터를 순차적으로 처리함
+        // .stream : 메서드가 반환한 컬렉션을 스트림으로 변환함, 스트림을 사용하면 데이터를 순차적으로 처리함
         // .map : 스트림의 각 요소에 대해 MemberDataDTO 객체로 변환하는 작업을 수행함
         // MemberDataDTO.of(member)는 회원 객체를 MemberDataDTO로 변환하는 정적 메서드임
         //.toList : 스트림을 리스트로 변환
