@@ -1,2 +1,2 @@
-package org.sopt.carrotMarket.repository;public class ItemRepository {
+package org.sopt.carrotMarket.repository;public interface ItemRepository {
 }
