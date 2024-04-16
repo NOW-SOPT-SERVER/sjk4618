@@ -1,6 +1,7 @@
 package org.sopt.carrotMarket.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,25 @@ public class Item {
     private String detailInfo;
 
     private String hopeTradeSpot;
+
+    @Builder //빌더패턴
+    private Item(String title, int price, boolean isReceived, String detailInfo, String hopeTradeSpot) {
+        this.title = title;
+        this.price = price;
+        this.isReceived = isReceived;
+        this.detailInfo = detailInfo;
+        this.hopeTradeSpot = hopeTradeSpot;
+    }
+
+    //정적팩토리메서드(빌더패턴이용)
+    public static Item register(String title, int price, boolean isReceived, String detailInfo, String hopeTradeSpot) {
+        return Item.builder()
+                .title(title)
+                .price(price)
+                .isReceived(isReceived)
+                .detailInfo(detailInfo)
+                .hopeTradeSpot(hopeTradeSpot)
+                .build();
+    }
+
 }
