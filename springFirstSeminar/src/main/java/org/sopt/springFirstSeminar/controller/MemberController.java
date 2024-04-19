@@ -36,7 +36,7 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/memberlist")
+    @GetMapping("/members")
     public ResponseEntity<List<MemberDataDTO>> getAllMemberList() {
         return ResponseEntity.ok(memberService.getAllMemberList());
     }
