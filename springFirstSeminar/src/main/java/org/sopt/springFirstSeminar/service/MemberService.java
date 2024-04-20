@@ -2,7 +2,9 @@ package org.sopt.springFirstSeminar.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
 import org.sopt.springFirstSeminar.domain.Member;
+import org.sopt.springFirstSeminar.exception.NotFoundException;
 import org.sopt.springFirstSeminar.repository.MemberRepository;
 import org.sopt.springFirstSeminar.service.dto.MemberCreateDTO;
 import org.sopt.springFirstSeminar.service.dto.MemberFindDTO;
@@ -23,6 +25,12 @@ public class MemberService {
         Member member = Member.create(memberCreateDTO.name(), memberCreateDTO.part(), memberCreateDTO.age());
         memberRepository.save(member);
         return member.getId().toString();
+    }
+
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(
+                () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND)
+        );
     }
 
     public MemberFindDTO findMemberById(Long memberId) {
