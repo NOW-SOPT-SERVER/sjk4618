@@ -39,16 +39,4 @@ public class BlogController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/blog/{blogId}/content")
-    public ResponseEntity<SuccesttStatusResponse> postBlogContent(
-            @RequestHeader(name = "memberId") Long memberId,
-            @PathVariable Long blogId,
-            @RequestBody BlogContentRequestDTO blogContentRequestDTO
-    ) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .header("Location", blogService.postContent(memberId, blogId, blogContentRequestDTO))
-                .body(SuccesttStatusResponse.of(SuccessMessage.BLOG_CREATE_SUCCESS));
-
-    }
 }

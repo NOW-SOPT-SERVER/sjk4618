@@ -5,8 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
 import org.sopt.springFirstSeminar.domain.Blog;
 import org.sopt.springFirstSeminar.domain.Member;
+import org.sopt.springFirstSeminar.domain.Post;
 import org.sopt.springFirstSeminar.exception.NotFoundException;
 import org.sopt.springFirstSeminar.repository.BlogRepository;
+import org.sopt.springFirstSeminar.repository.PostRepository;
+import org.sopt.springFirstSeminar.service.dto.BlogContentRequestDTO;
 import org.sopt.springFirstSeminar.service.dto.BlogCreateRequest;
 import org.sopt.springFirstSeminar.service.dto.BlogTitleUpdateRequest;
 import org.sopt.springFirstSeminar.service.dto.MemberFindDTO;
@@ -19,6 +22,7 @@ public class BlogService {
 
     private final BlogRepository blogRepository;
     private final MemberService memberService;
+    private final PostRepository postRepository;
 
     public String create(Long memberId, BlogCreateRequest blogCreateRequest) {
         Member member = memberService.findById(memberId);
@@ -37,5 +41,4 @@ public class BlogService {
                 () -> new NotFoundException(ErrorMessage.BLOG_NOT_FOUND)
         );
     }
-
 }
