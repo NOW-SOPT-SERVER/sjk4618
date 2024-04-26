@@ -1,5 +1,6 @@
 package org.sopt.springFirstSeminar.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.dto.SuccessMessage;
 import org.sopt.springFirstSeminar.common.dto.SuccesttStatusResponse;
@@ -20,7 +21,7 @@ public class PostController {
     public ResponseEntity<SuccesttStatusResponse> postBlogContent(
             @RequestHeader(name = "memberId") Long memberId,
             @PathVariable Long blogId,
-            @RequestBody BlogContentRequestDTO blogContentRequestDTO
+            @Valid @RequestBody BlogContentRequestDTO blogContentRequestDTO
             ) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
