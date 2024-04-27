@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.sopt.springFirstSeminar.service.dto.BlogContentRequestDTO;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -21,7 +23,6 @@ public class Post extends BaseTimeEntity {
     private String name;
 
     private String content;
-
 
     private Post(Blog blog, String name, String content) {
         this.blog = blog;
