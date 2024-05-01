@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorMessage {
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "ID에 해당하는 사용자가 존재하지 않습니다."),
     BLOG_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "BLOG ID에 해당하는 블로그가 존재하지 않습니다."),
-    BLOG_NOT_MATCH_MEMBER(HttpStatus.NOT_FOUND.value(), "해당 멤버 ID에 해당하는 블로그가 존재하지 않습니다."),
+    BLOG_NOT_MATCH_MEMBER(HttpStatus.NOT_FOUND.value(), "해당 멤버 ID에 해당하는 블로그ID가 아닙니다."),
     CONTENT_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "POST ID에 해당하는 글이 존재하지 않습니다")
     ;
 
