@@ -2,6 +2,8 @@ package org.sopt.springFirstSeminar.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.sopt.springFirstSeminar.common.ApiResponseUtil;
+import org.sopt.springFirstSeminar.common.BaseResponse;
 import org.sopt.springFirstSeminar.common.dto.SuccessMessage;
 import org.sopt.springFirstSeminar.common.dto.SuccessStatusResponse;
 import org.sopt.springFirstSeminar.service.PostService;
@@ -32,13 +34,11 @@ public class PostController {
     }
 
     @GetMapping("/post/{postId}")
-    public ResponseEntity<SuccessStatusResponse<?>> getPostContent(
+    public ResponseEntity<BaseResponse<?>> getPostContent(
             @PathVariable Long postId
     ) {
         final BlogContentResponseDTO response = postService.getBlogContent(postId);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(SuccessStatusResponse.of(SuccessMessage.GET_BLOG_CONTENT_SUCCESS, response));
+        return ApiResponseUtil.success(SuccessMessage.GET_BLOG_CONTENT_SUCCESS, response);
     }
 
 
