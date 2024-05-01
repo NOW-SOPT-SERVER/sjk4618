@@ -2,6 +2,8 @@ package org.sopt.springFirstSeminar.domain;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.sopt.springFirstSeminar.service.dto.BlogContentRequestDTO;
@@ -20,8 +22,10 @@ public class Post extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Blog blog;
 
+    @NotBlank
     private String name;
 
+    @NotBlank
     private String content;
 
     private Post(Blog blog, String name, String content) {
