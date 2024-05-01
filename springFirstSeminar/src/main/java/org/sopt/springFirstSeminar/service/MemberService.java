@@ -29,21 +29,18 @@ public class MemberService {
 
     public Member findById(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(
-                () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND)
-        );
+                () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND));
     }
 
     public MemberFindDTO findMemberById(Long memberId) {
         return MemberFindDTO.of(memberRepository.findById(memberId).orElseThrow(
-                () -> new EntityNotFoundException("ID에 해당하는 사용자가 존재하지 않습니다.")
-        ));
+                () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND)));
     }
 
     @Transactional
     public void deleteMemberById(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(
-                () -> new EntityNotFoundException("ID에 해당하는 사용자가 존재하지 않습니다.")
-        );
+                () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND));
         memberRepository.delete(member);
     }
 
