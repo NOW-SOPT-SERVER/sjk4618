@@ -38,6 +38,4 @@ public class PostController {
         final BlogContentResponseDTO response = postService.getBlogContent(postId);
         return ApiResponseUtil.success(SuccessMessage.GET_BLOG_CONTENT_SUCCESS, response);
     }
-
-
 }
