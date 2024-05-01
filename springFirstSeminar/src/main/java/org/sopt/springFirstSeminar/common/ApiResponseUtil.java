@@ -1,7 +1,6 @@
 package org.sopt.springFirstSeminar.common;
 
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
 import org.sopt.springFirstSeminar.common.dto.SuccessMessage;
 import org.springframework.http.ResponseEntity;

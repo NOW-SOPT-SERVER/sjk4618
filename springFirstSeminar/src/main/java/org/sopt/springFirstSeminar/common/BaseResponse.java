@@ -12,7 +12,7 @@ import org.sopt.springFirstSeminar.common.dto.SuccessStatusResponse;
 @Builder
 @AllArgsConstructor
 @Getter
-public class BaseResponse<T> {
+public class    BaseResponse<T> {
     private final int status;
     private final String message;
 
