@@ -21,16 +21,14 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/post/{blogId}")
-    public ResponseEntity<SuccessStatusResponse<?>> postBlogContent(
+    public ResponseEntity<BaseResponse<?>> postBlogContent(
             @RequestHeader(name = "memberId") Long memberId,
             @PathVariable Long blogId,
             @Valid @RequestBody BlogContentRequestDTO blogContentRequestDTO
             ) {
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .header("Location", postService.postContent(memberId, blogId, blogContentRequestDTO))
-                .body(SuccessStatusResponse.of(SuccessMessage.BLOG_CONTENT_CREATE_SUCCESS));
+        postService.postContent(memberId, blogId, blogContentRequestDTO);
+        return ApiResponseUtil.success(SuccessMessage.BLOG_CONTENT_CREATE_SUCCESS);
     }
 
     @GetMapping("/post/{postId}")

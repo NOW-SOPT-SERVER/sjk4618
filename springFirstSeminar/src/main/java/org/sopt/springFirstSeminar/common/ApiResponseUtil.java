@@ -24,5 +24,4 @@ public interface ApiResponseUtil {
                 .status(errorMessage.getStatus())
                 .body(BaseResponse.of(errorMessage));
     }
-
 }
