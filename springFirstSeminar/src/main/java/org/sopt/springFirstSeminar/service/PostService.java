@@ -9,6 +9,7 @@ import org.sopt.springFirstSeminar.domain.Blog;
 import org.sopt.springFirstSeminar.domain.Post;
 import org.sopt.springFirstSeminar.exception.NotFoundException;
 import org.sopt.springFirstSeminar.repository.PostRepository;
+import org.sopt.springFirstSeminar.service.dto.BlogAllContentResponseDTO;
 import org.sopt.springFirstSeminar.service.dto.BlogContentRequestDTO;
 import org.sopt.springFirstSeminar.service.dto.BlogContentResponseDTO;
 import org.springframework.stereotype.Service;
@@ -47,11 +48,19 @@ public class PostService {
         return BlogContentResponseDTO.of(findPost, createTimeString);
     }
 
+    public BlogAllContentResponseDTO getBlogAllContent(Long blogId) {
+        Blog blog = blogService.findBlogById(blogId);
+        postRepository.find
+
+        return
+    }
+
     private Post getPostById(Long postId) {
         return postRepository.findById(postId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.CONTENT_NOT_FOUND)
         );
     }
+
 
 
 
