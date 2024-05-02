@@ -19,7 +19,6 @@ public class Member {
 
     public static Member register(String name) {
         return new Member(name);
-
     }
 
     private Member(String name) {
