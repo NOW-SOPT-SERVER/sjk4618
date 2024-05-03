@@ -13,12 +13,12 @@ import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/item")
+@RequestMapping("/api/v1")
 public class ItemController {
 
     private final ItemService itemService;
 
-    @PostMapping
+    @PostMapping("/item")
     public ResponseEntity<BaseResponse<?>> registerItem(@RequestHeader Long memberId,
                                                         @RequestBody RegisterItemDTO registerItemDTO) {
         itemService.registerItem(memberId, registerItemDTO);

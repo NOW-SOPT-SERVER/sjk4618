@@ -1,5 +1,6 @@
 package org.sopt.carrotMarket.service.dto;
 
+import org.sopt.carrotMarket.constant.Location;
 import org.sopt.carrotMarket.domain.Member;
 
 public record RegisterItemDTO(
@@ -7,5 +8,5 @@ public record RegisterItemDTO(
         int price,
         boolean isReceived,
         String detailInfo,
-        String hopeTradeSpot
+        Location hopeTradeSpot
 ) { }
