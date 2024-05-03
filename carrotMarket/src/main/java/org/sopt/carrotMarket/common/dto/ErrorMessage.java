@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorMessage {
+    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "MemberID에 해당하는 멤버가 없습니다.")
     ;
     private final int status;
     private final String message;

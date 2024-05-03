@@ -28,7 +28,8 @@ public class Item {
     private String hopeTradeSpot;
 
     @Builder //빌더패턴
-    private Item(String title, int price, boolean isReceived, String detailInfo, String hopeTradeSpot) {
+    private Item(Member member, String title, int price, boolean isReceived, String detailInfo, String hopeTradeSpot) {
+        this.member = member;
         this.title = title;
         this.price = price;
         this.isReceived = isReceived;
@@ -37,8 +38,9 @@ public class Item {
     }
 
     //정적팩토리메서드(빌더패턴이용)
-    public static Item register(String title, int price, boolean isReceived, String detailInfo, String hopeTradeSpot) {
+    public static Item register(Member member, String title, int price, boolean isReceived, String detailInfo, String hopeTradeSpot) {
         return Item.builder()
+                .member(member)
                 .title(title)
                 .price(price)
                 .isReceived(isReceived)
