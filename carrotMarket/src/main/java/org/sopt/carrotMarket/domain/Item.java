@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.sopt.carrotMarket.constant.Location;
 
 @Entity
@@ -26,7 +27,14 @@ public class Item {
 
     private String detailInfo;
 
+    @Enumerated(EnumType.STRING)
     private Location hopeTradeSpot;
+
+    @Setter
+    private int likesCount = 0;
+
+    @Setter
+    private int textsCount = 0;
 
     @Builder //빌더패턴
     private Item(Member member, String title, int price, boolean isReceived, String detailInfo, Location hopeTradeSpot) {
