@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.carrotMarket.common.ApiResponseUtil;
 import org.sopt.carrotMarket.common.BaseResponse;
 import org.sopt.carrotMarket.common.dto.SuccessMessage;
+import org.sopt.carrotMarket.constant.Location;
 import org.sopt.carrotMarket.service.ItemService;
 import org.sopt.carrotMarket.service.dto.GetAllItemsByMemberIdResponseDTO;
 import org.sopt.carrotMarket.service.dto.RegisterItemDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -27,9 +27,20 @@ public class ItemController {
         return ApiResponseUtil.success(SuccessMessage.ITEM_REGISTER_SUCCESS);
     }
 
+    //memberID에 해당되는 모든 물건 GET
     @GetMapping("/item/items")
     public ResponseEntity<BaseResponse<?>> getAllItemsByMemberId(@RequestHeader Long memberId) {
         List<GetAllItemsByMemberIdResponseDTO> response = itemService.getAllItemsByMemberId(memberId);
-        return ApiResponseUtil.success(SuccessMessage.GET_ITEMS_SUCCESS, response);
+        return ApiResponseUtil.success(SuccessMessage.GET_ITEMS_SUCCESS_BY_MEMBERID, response);
     }
+
+    //Location에 해당되는 모든 물건 GET
+    @GetMapping("item/location")
+    public ResponseEntity<BaseResponse<?>> getAllItemsByLocation(@RequestParam(value = "Location") Location location) {
+        List<GetAllItemsByMemberIdResponseDTO> response = itemService.getAllItemsByLocation(location);
+
+        return ApiResponseUtil.success(SuccessMessage.GET_ITEMS_SUCCESS_BY_LOCATION, response);
+    }
+
+
 }
