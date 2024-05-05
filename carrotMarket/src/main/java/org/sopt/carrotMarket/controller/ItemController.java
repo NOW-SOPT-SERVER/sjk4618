@@ -21,22 +21,22 @@ public class ItemController {
     private final ItemService itemService;
 
     @PostMapping("/item")
-    public ResponseEntity<BaseResponse<?>> registerItem(@RequestHeader Long memberId,
-                                                        @RequestBody RegisterItemDTO registerItemDTO) {
+    public ResponseEntity<BaseResponse<?>> registerItem(@RequestHeader final Long memberId,
+                                                        @RequestBody final RegisterItemDTO registerItemDTO) {
         itemService.registerItem(memberId, registerItemDTO);
         return ApiResponseUtil.success(SuccessMessage.ITEM_REGISTER_SUCCESS);
     }
 
     //memberID에 해당되는 모든 물건 GET
     @GetMapping("/item/items")
-    public ResponseEntity<BaseResponse<?>> getAllItemsByMemberId(@RequestHeader Long memberId) {
+    public ResponseEntity<BaseResponse<?>> getAllItemsByMemberId(@RequestHeader final Long memberId) {
         List<GetAllItemsByMemberIdResponseDTO> response = itemService.getAllItemsByMemberId(memberId);
         return ApiResponseUtil.success(SuccessMessage.GET_ITEMS_SUCCESS_BY_MEMBERID, response);
     }
 
     //Location에 해당되는 모든 물건 GET
     @GetMapping("item/location")
-    public ResponseEntity<BaseResponse<?>> getAllItemsByLocation(@RequestParam(value = "Location") Location location) {
+    public ResponseEntity<BaseResponse<?>> getAllItemsByLocation(@RequestParam(value = "Location") final String location) {
         List<GetAllItemsByMemberIdResponseDTO> response = itemService.getAllItemsByLocation(location);
 
         return ApiResponseUtil.success(SuccessMessage.GET_ITEMS_SUCCESS_BY_LOCATION, response);

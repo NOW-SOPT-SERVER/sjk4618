@@ -31,18 +31,20 @@ public class ItemService {
 
         Member member = findMemberById(memberId);
 
+        Location.getEnumResultFromStringResult((registerItemDTO.hopeTradeSpot()));
+
         Item item = Item.register(
                 member,
                 registerItemDTO.title(),
                 registerItemDTO.price(),
                 registerItemDTO.isReceived(),
                 registerItemDTO.detailInfo(),
-                registerItemDTO.hopeTradeSpot());
+                Location.valueOf(registerItemDTO.hopeTradeSpot()));
 
         itemRepository.save(item);
     }
 
-    public List<GetAllItemsByMemberIdResponseDTO> getAllItemsByMemberId(Long memberId) {
+    public List<GetAllItemsByMemberIdResponseDTO> getAllItemsByMemberId(final Long memberId) {
 
         Member member = findMemberById(memberId);
 
@@ -55,8 +57,11 @@ public class ItemService {
                 .toList();
     }
 
-    public List<GetAllItemsByMemberIdResponseDTO> getAllItemsByLocation(Location location) {
-        return itemRepository.findByHopeTradeSpot(location)
+    public List<GetAllItemsByMemberIdResponseDTO> getAllItemsByLocation(final String location) {
+
+        Location.getEnumResultFromStringResult((location));
+
+        return itemRepository.findByHopeTradeSpot(Location.valueOf(location))
                 .stream()
                 .map((Item item) -> {
                     return GetAllItemsByMemberIdResponseDTO.builder()
@@ -65,7 +70,7 @@ public class ItemService {
                             .likesCount(item.getLikesCount())
                             .price(item.getPrice())
                             .detailInfo(item.getDetailInfo())
-                            .hopeTradeSpot(item.getHopeTradeSpot())
+                            .hopeTradeSpot(String.valueOf(item.getHopeTradeSpot()))
                             .isReceived(item.isReceived())
                             .build();
                 })

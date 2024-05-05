@@ -26,9 +26,5 @@ public class MemberController {
     public ResponseEntity<BaseResponse<?>> createMember(@RequestBody RegisterMemberRequestDTO member) {
         memberService.registerMember(member);
         return ApiResponseUtil.success(SuccessMessage.MEMBER_REGISTER_SUCCESS);
-
-
     }
-
-
 }

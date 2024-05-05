@@ -48,7 +48,7 @@ public class ItemLikesService {
     //아이템 검증 메서드
     private Item checkItem(Long itemId) {
         return itemRepository.findById(itemId).orElseThrow(
-                () -> new NotFoundException(ErrorMessage.ITEM_NOT_FOUND)
+                () -> new NotFoundException(ErrorMessage.INVALID_INPUT)
         );
     }
 

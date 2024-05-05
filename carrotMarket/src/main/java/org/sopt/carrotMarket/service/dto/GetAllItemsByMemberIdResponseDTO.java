@@ -13,14 +13,17 @@ public record GetAllItemsByMemberIdResponseDTO(
         String detailInfo,
         boolean isLikedByMember,
         int likesCount,
-        Location hopeTradeSpot
+        String hopeTradeSpot
 ) {
+
+    //이게 멤버별로 받아올 때는, 내가 좋아요 누른지가 필요하지만
+    //지역별로 받아올 때는, 내가 좋아요를 누른지가 필요하지 않아서 builder를 이용했다.
 
     @Builder //빌더패턴
     public GetAllItemsByMemberIdResponseDTO(Long itemId, String title, int price,
                                             boolean isReceived, String detailInfo,
                                             boolean isLikedByMember, int likesCount,
-                                            Location hopeTradeSpot
+                                            String hopeTradeSpot
     ) {
         this.itemId = itemId;
         this.title = title;
@@ -41,7 +44,7 @@ public record GetAllItemsByMemberIdResponseDTO(
                 .detailInfo(item.getDetailInfo())
                 .isLikedByMember(isLiked)
                 .likesCount(item.getLikesCount())
-                .hopeTradeSpot(item.getHopeTradeSpot())
+                .hopeTradeSpot(String.valueOf(item.getHopeTradeSpot()))
                 .build();
     }
 }

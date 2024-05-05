@@ -8,5 +8,5 @@ public record RegisterItemDTO(
         int price,
         boolean isReceived,
         String detailInfo,
-        Location hopeTradeSpot
+        String hopeTradeSpot
 ) { }

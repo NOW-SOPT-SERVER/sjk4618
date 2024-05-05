@@ -19,8 +19,6 @@ public class ItemLikes {
     @ManyToOne
     private Item item;
 
-
-
     public ItemLikes(Member member, Item item) {
         this.member = member;
         this.item = item;

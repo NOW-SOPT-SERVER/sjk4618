@@ -18,7 +18,7 @@ public class ItemLikesController {
 
     private final ItemLikesService itemLikesService;
 
-    @PatchMapping("item/{itemId}")
+    @PostMapping("item/{itemId}")
     public ResponseEntity<BaseResponse<?>> addItemLike(@RequestHeader Long memberId,
                                                        @PathVariable Long itemId) {
         itemLikesService.addLikesByMemberId(memberId, itemId);

@@ -1,6 +1,7 @@
 package org.sopt.carrotMarket.common;
 
 import org.sopt.carrotMarket.common.dto.ErrorMessage;
+import org.sopt.carrotMarket.exception.InvalidValueException;
 import org.sopt.carrotMarket.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,5 +17,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     protected ResponseEntity<BaseResponse<?>> handleNotFoundException(final NotFoundException e) {
         return ApiResponseUtil.failure(e.getErrorMessage());
+    }
+
+    @ExceptionHandler(InvalidValueException.class)
+    protected ResponseEntity<BaseResponse<?>> handleIllegalArgumentException(final InvalidValueException e) {
+        return ApiResponseUtil.failure(ErrorMessage.INVALID_INPUT);
     }
 }

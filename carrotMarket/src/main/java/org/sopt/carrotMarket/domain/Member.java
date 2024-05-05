@@ -14,7 +14,9 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Column(nullable = false)
+    @NotBlank
     private String name;
 
     public static Member register(String name) {
