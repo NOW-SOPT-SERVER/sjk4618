@@ -2,6 +2,7 @@ package org.sopt.carrotMarket.domain;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,9 +15,8 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @Column(nullable = false)
     @NotBlank
+    @Column(nullable = false)
     private String name;
 
     public static Member register(String name) {

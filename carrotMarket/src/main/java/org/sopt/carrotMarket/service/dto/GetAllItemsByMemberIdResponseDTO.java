@@ -13,7 +13,8 @@ public record GetAllItemsByMemberIdResponseDTO(
         String detailInfo,
         boolean isLikedByMember,
         int likesCount,
-        String hopeTradeSpot
+        String hopeTradeSpot,
+        int textedCount
 ) {
 
     //이게 멤버별로 받아올 때는, 내가 좋아요 누른지가 필요하지만
@@ -23,7 +24,7 @@ public record GetAllItemsByMemberIdResponseDTO(
     public GetAllItemsByMemberIdResponseDTO(Long itemId, String title, int price,
                                             boolean isReceived, String detailInfo,
                                             boolean isLikedByMember, int likesCount,
-                                            String hopeTradeSpot
+                                            String hopeTradeSpot, int textedCount
     ) {
         this.itemId = itemId;
         this.title = title;
@@ -33,6 +34,7 @@ public record GetAllItemsByMemberIdResponseDTO(
         this.isLikedByMember = isLikedByMember;
         this.likesCount = likesCount;
         this.hopeTradeSpot = hopeTradeSpot;
+        this.textedCount = textedCount;
     }
 
     public static GetAllItemsByMemberIdResponseDTO of(Item item, boolean isLiked) {
@@ -45,6 +47,7 @@ public record GetAllItemsByMemberIdResponseDTO(
                 .isLikedByMember(isLiked)
                 .likesCount(item.getLikesCount())
                 .hopeTradeSpot(String.valueOf(item.getHopeTradeSpot()))
+                .textedCount(item.getTextsCount())
                 .build();
     }
 }
