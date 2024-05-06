@@ -37,5 +37,4 @@ public class BlogController {
         blogService.updateTitle(blogId, blogTitleUpdateRequest);
         return ResponseEntity.noContent().build();
     }
-
 }

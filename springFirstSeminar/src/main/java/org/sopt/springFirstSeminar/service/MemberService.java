@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,12 +29,12 @@ public class MemberService {
     }
 
     public Member findById(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(
+        return findMember(memberId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND));
     }
 
     public MemberFindDTO findMemberById(Long memberId) {
-        return MemberFindDTO.of(memberRepository.findById(memberId).orElseThrow(
+        return MemberFindDTO.of(findMember(memberId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND)));
     }
 
@@ -42,6 +43,10 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND));
         memberRepository.delete(member);
+    }
+
+    public Optional<Member> findMember(Long memberId) {
+        return memberRepository.findById(memberId);
     }
 
     public List<MemberDataDTO> getAllMemberList() {

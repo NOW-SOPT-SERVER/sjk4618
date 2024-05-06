@@ -8,6 +8,7 @@ import org.sopt.springFirstSeminar.common.dto.SuccessStatusResponse;
 import org.sopt.springFirstSeminar.domain.Blog;
 import org.sopt.springFirstSeminar.domain.Post;
 import org.sopt.springFirstSeminar.exception.NotFoundException;
+import org.sopt.springFirstSeminar.repository.BlogRepository;
 import org.sopt.springFirstSeminar.repository.PostRepository;
 import org.sopt.springFirstSeminar.service.dto.BlogAllContentResponseDTO;
 import org.sopt.springFirstSeminar.service.dto.BlogContentRequestDTO;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,20 +27,25 @@ import java.util.Optional;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final BlogService blogService;
     private final MemberService memberService;
+    private final BlogRepository blogRepository;
 
     @Transactional
     public String postContent(Long memberId, Long blogId, BlogContentRequestDTO blogContentRequestDTO) {
         memberService.findById(memberId);
-        Blog blog = blogService.findBlogById(blogId);
 
-        if(blog.getMember().getId().equals(memberId)) {
+        Blog blog = fineBlogById(blogId);
+
+        if(isBlogMemberIdSameWithMemberId(blog, memberId)) {
             Post post = postRepository.save(Post.create(blog, blogContentRequestDTO));
             return post.getId().toString();
         } else {
             throw new NotFoundException(ErrorMessage.BLOG_NOT_MATCH_MEMBER); //블로그id와 멤버id가 일치하지 않을 때!
         }
+    }
+
+    public boolean isBlogMemberIdSameWithMemberId(Blog blog, Long memberId) {
+        return blog.getMember().getId().equals(memberId);
     }
 
     public BlogContentResponseDTO getBlogContent(Long postId) {
@@ -48,11 +55,13 @@ public class PostService {
         return BlogContentResponseDTO.of(findPost, createTimeString);
     }
 
-    public BlogAllContentResponseDTO getBlogAllContent(Long blogId) {
-        Blog blog = blogService.findBlogById(blogId);
-        postRepository.find
+    public List<BlogAllContentResponseDTO> getBlogAllContent(Long blogId) {
+        Blog blog = fineBlogById(blogId);
 
-        return
+        return postRepository.findById(blogId)
+                .stream()
+                .map(BlogAllContentResponseDTO::of)
+                .toList();
     }
 
     private Post getPostById(Long postId) {
@@ -61,8 +70,8 @@ public class PostService {
         );
     }
 
-
-
-
-
+    private Blog fineBlogById(Long blogId) {
+        return blogRepository.findById(blogId).orElseThrow(
+                () -> new NotFoundException(ErrorMessage.BLOG_NOT_FOUND));
+    }
 }

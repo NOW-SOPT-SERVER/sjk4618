@@ -29,7 +29,6 @@ public class PostController {
             @PathVariable Long blogId,
             @Valid @RequestBody BlogContentRequestDTO blogContentRequestDTO
             ) {
-
         postService.postContent(memberId, blogId, blogContentRequestDTO);
         return ApiResponseUtil.success(SuccessMessage.BLOG_CONTENT_CREATE_SUCCESS);
     }
@@ -42,7 +41,7 @@ public class PostController {
         return ApiResponseUtil.success(SuccessMessage.GET_BLOG_CONTENT_SUCCESS, response);
     }
 
-    @GetMapping("/post/{blogId}")
+    @GetMapping("/post/blog/{blogId}")
     public ResponseEntity<BaseResponse<?>> getAllPostContent(
             @PathVariable Long blogId
     ) {
