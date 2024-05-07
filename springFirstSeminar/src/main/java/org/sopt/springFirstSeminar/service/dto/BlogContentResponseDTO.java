@@ -1,12 +1,13 @@
 package org.sopt.springFirstSeminar.service.dto;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import org.sopt.springFirstSeminar.domain.Blog;
 import org.sopt.springFirstSeminar.domain.Post;
 
 import java.time.LocalDateTime;
 
-@Builder
+@Builder(access = AccessLevel.PRIVATE)
 public record BlogContentResponseDTO(
         String name,
         String content,
