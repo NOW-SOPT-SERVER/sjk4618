@@ -1,9 +1,10 @@
 package org.sopt.springFirstSeminar.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AccessLevel;
 import lombok.Builder;
 
-@Builder
+@Builder(access = AccessLevel.PRIVATE)
 public record SuccessStatusResponse<T>(
         int status,
         String message,

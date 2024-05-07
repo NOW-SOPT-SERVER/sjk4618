@@ -1,5 +1,6 @@
 package org.sopt.springFirstSeminar.service.dto;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import org.sopt.springFirstSeminar.domain.Post;
 
@@ -9,7 +10,7 @@ public record BlogAllContentResponseDTO(
         String content
 ) {
 
-    @Builder //빌더패턴
+    @Builder(access = AccessLevel.PRIVATE)
     public BlogAllContentResponseDTO( Long postId, String name, String content
     ) {
         this.postId = postId;
