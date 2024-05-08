@@ -37,7 +37,12 @@ public class PostService {
         Blog blog = fineBlogById(blogId);
 
         if(isBlogMemberIdSameWithMemberId(blog, memberId)) {
-            Post post = postRepository.save(Post.create(blog, blogContentRequestDTO));
+            Post post = postRepository.save(
+                    Post.builder()
+                    .blog(blog)
+                    .name(blogContentRequestDTO.name())
+                    .content(blogContentRequestDTO.content())
+                    .build());
             return post.getId().toString();
         } else {
             throw new NotFoundException(ErrorMessage.BLOG_NOT_MATCH_MEMBER); //블로그id와 멤버id가 일치하지 않을 때!
