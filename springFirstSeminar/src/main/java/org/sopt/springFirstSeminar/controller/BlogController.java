@@ -21,8 +21,8 @@ public class BlogController {
 
     @PostMapping("/blog")
     public ResponseEntity<SuccessStatusResponse<?>> createBlog(
-            @RequestHeader(name = "memberId") Long memberId,
-            @RequestBody BlogCreateRequest blogCreateRequest
+            @RequestHeader(name = "memberId") final Long memberId,
+            @RequestBody final BlogCreateRequest blogCreateRequest
     ) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -32,8 +32,8 @@ public class BlogController {
 
     @PatchMapping("/blog/{blogId}/title")
     public ResponseEntity updateBlogTitle(
-            @PathVariable Long blogId,
-            @Valid @RequestBody BlogTitleUpdateRequest blogTitleUpdateRequest) {
+            @PathVariable final Long blogId,
+            @Valid @RequestBody final BlogTitleUpdateRequest blogTitleUpdateRequest) {
         blogService.updateTitle(blogId, blogTitleUpdateRequest);
         return ResponseEntity.noContent().build();
     }

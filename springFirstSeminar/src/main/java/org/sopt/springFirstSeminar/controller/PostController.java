@@ -25,9 +25,9 @@ public class PostController {
 
     @PostMapping("/post/{blogId}")
     public ResponseEntity<BaseResponse<?>> postBlogContent(
-            @RequestHeader(name = "memberId") Long memberId,
-            @PathVariable Long blogId,
-            @Valid @RequestBody BlogContentRequestDTO blogContentRequestDTO
+            @RequestHeader(name = "memberId") final Long memberId,
+            @PathVariable final Long blogId,
+            @Valid @RequestBody final BlogContentRequestDTO blogContentRequestDTO
             ) {
         postService.postContent(memberId, blogId, blogContentRequestDTO);
         return ApiResponseUtil.success(SuccessMessage.BLOG_CONTENT_CREATE_SUCCESS);
@@ -35,7 +35,7 @@ public class PostController {
 
     @GetMapping("/post/{postId}")
     public ResponseEntity<BaseResponse<?>> getPostContent(
-            @PathVariable Long postId
+            @PathVariable final Long postId
     ) {
         final BlogContentResponseDTO response = postService.getBlogContent(postId);
         return ApiResponseUtil.success(SuccessMessage.GET_BLOG_CONTENT_SUCCESS, response);
@@ -43,7 +43,7 @@ public class PostController {
 
     @GetMapping("/post/blog/{blogId}")
     public ResponseEntity<BaseResponse<?>> getAllPostContent(
-            @PathVariable Long blogId
+            @PathVariable final Long blogId
     ) {
         final List<BlogAllContentResponseDTO> response = postService.getBlogAllContent(blogId);
         return ApiResponseUtil.success(SuccessMessage.GET_BLOG_CONTENT_SUCCESS, response);

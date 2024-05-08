@@ -8,6 +8,7 @@ import org.sopt.springFirstSeminar.domain.Member;
 import org.sopt.springFirstSeminar.domain.Post;
 import org.sopt.springFirstSeminar.exception.NotFoundException;
 import org.sopt.springFirstSeminar.repository.BlogRepository;
+import org.sopt.springFirstSeminar.repository.MemberRepository;
 import org.sopt.springFirstSeminar.repository.PostRepository;
 import org.sopt.springFirstSeminar.service.dto.BlogContentRequestDTO;
 import org.sopt.springFirstSeminar.service.dto.BlogCreateRequest;
@@ -21,24 +22,29 @@ import org.springframework.transaction.annotation.Transactional;
 public class BlogService {
 
     private final BlogRepository blogRepository;
-    private final MemberService memberService;
-    private final PostRepository postRepository;
+    private final MemberRepository memberRepository;
 
-    public String create(Long memberId, BlogCreateRequest blogCreateRequest) {
-        Member member = memberService.findById(memberId);
+    public String create(final Long memberId, final BlogCreateRequest blogCreateRequest) {
+        Member member = findMemberById(memberId);
         Blog blog = blogRepository.save(Blog.create(member, blogCreateRequest));
         return blog.getId().toString();
     }
 
     @Transactional //이거를 적거나 이 메서드 아래에 blogRepository.save()를 해도 됨.
-    public void updateTitle(Long blogId, BlogTitleUpdateRequest blogTitleUpdateRequest) {
+    public void updateTitle(final Long blogId, final BlogTitleUpdateRequest blogTitleUpdateRequest) {
         Blog blog = findBlogById(blogId);
         blog.updateTitle(blogTitleUpdateRequest.title());
     }
 
-    public Blog findBlogById(Long blogId) {
+    public Blog findBlogById(final Long blogId) {
         return blogRepository.findById(blogId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.BLOG_NOT_FOUND)
+        );
+    }
+
+    private Member findMemberById(final Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(
+                () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND)
         );
     }
 }

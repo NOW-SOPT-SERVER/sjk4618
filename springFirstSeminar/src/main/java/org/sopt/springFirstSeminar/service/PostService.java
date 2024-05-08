@@ -31,7 +31,7 @@ public class PostService {
     private final BlogRepository blogRepository;
 
     @Transactional
-    public String postContent(Long memberId, Long blogId, BlogContentRequestDTO blogContentRequestDTO) {
+    public String postContent(final Long memberId, final Long blogId, final BlogContentRequestDTO blogContentRequestDTO) {
         memberService.findById(memberId);
 
         Blog blog = fineBlogById(blogId);
@@ -44,18 +44,18 @@ public class PostService {
         }
     }
 
-    public boolean isBlogMemberIdSameWithMemberId(Blog blog, Long memberId) {
+    public boolean isBlogMemberIdSameWithMemberId(final Blog blog, final Long memberId) {
         return blog.getMember().getId().equals(memberId);
     }
 
-    public BlogContentResponseDTO getBlogContent(Long postId) {
+    public BlogContentResponseDTO getBlogContent(final Long postId) {
         Post findPost = getPostById(postId);
         String createTimeString = findPost.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
         return BlogContentResponseDTO.of(findPost, createTimeString);
     }
 
-    public List<BlogAllContentResponseDTO> getBlogAllContent(Long blogId) {
+    public List<BlogAllContentResponseDTO> getBlogAllContent(final Long blogId) {
         Blog blog = fineBlogById(blogId);
 
         return postRepository.findById(blogId)
@@ -64,13 +64,13 @@ public class PostService {
                 .toList();
     }
 
-    private Post getPostById(Long postId) {
+    private Post getPostById(final Long postId) {
         return postRepository.findById(postId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.CONTENT_NOT_FOUND)
         );
     }
 
-    private Blog fineBlogById(Long blogId) {
+    private Blog fineBlogById(final Long blogId) {
         return blogRepository.findById(blogId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.BLOG_NOT_FOUND));
     }

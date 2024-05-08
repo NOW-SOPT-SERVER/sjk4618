@@ -20,18 +20,18 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity createMember(@RequestBody MemberCreateDTO memberCreate) {
+    public ResponseEntity createMember(@RequestBody final MemberCreateDTO memberCreate) {
         return ResponseEntity.created(URI.create(memberService.createMember(memberCreate)))
                 .build();
     }
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<MemberFindDTO> findMemberById(@PathVariable Long memberId) {
+    public ResponseEntity<MemberFindDTO> findMemberById(@PathVariable final Long memberId) {
         return ResponseEntity.ok(memberService.findMemberById(memberId));
     }
 
     @DeleteMapping("/{memberId}")
-    public ResponseEntity deleteMemberById(@PathVariable Long memberId) {
+    public ResponseEntity deleteMemberById(@PathVariable final Long memberId) {
         memberService.deleteMemberById(memberId);
         return ResponseEntity.noContent().build();
     }

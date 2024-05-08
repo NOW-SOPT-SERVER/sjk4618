@@ -1,6 +1,5 @@
 package org.sopt.springFirstSeminar.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
 import org.sopt.springFirstSeminar.domain.Member;
@@ -28,24 +27,24 @@ public class MemberService {
         return member.getId().toString();
     }
 
-    public Member findById(Long memberId) {
-        return findMember(memberId).orElseThrow(
+    public void findById(final Long memberId) {
+        findMember(memberId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND));
     }
 
-    public MemberFindDTO findMemberById(Long memberId) {
+    public MemberFindDTO findMemberById(final Long memberId) {
         return MemberFindDTO.of(findMember(memberId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND)));
     }
 
     @Transactional
-    public void deleteMemberById(Long memberId) {
+    public void deleteMemberById(final Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND));
         memberRepository.delete(member);
     }
 
-    public Optional<Member> findMember(Long memberId) {
+    public Optional<Member> findMember(final Long memberId) {
         return memberRepository.findById(memberId);
     }
 

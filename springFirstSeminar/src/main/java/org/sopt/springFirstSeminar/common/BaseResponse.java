@@ -11,7 +11,7 @@ import org.sopt.springFirstSeminar.common.dto.SuccessMessage;
 import org.sopt.springFirstSeminar.common.dto.SuccessStatusResponse;
 
 @Builder(access = AccessLevel.PRIVATE)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class BaseResponse<T> {
     private final int status;
