@@ -1,5 +1,6 @@
 package org.sopt.springFirstSeminar.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,6 +19,7 @@ public record BlogContentResponseDTO(
         String content,
 
         @NotBlank
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss", timezone = "Asia/Seoul")
         String createdAt
 ) {
     public static BlogContentResponseDTO of(Post post, String createdAt) {

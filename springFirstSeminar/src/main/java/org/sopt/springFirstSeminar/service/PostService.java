@@ -5,6 +5,7 @@ import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
 import org.sopt.springFirstSeminar.common.dto.ErrorResponse;
 import org.sopt.springFirstSeminar.common.dto.SuccessMessage;
 import org.sopt.springFirstSeminar.common.dto.SuccessStatusResponse;
+import org.sopt.springFirstSeminar.common.util.DateFormatUtil;
 import org.sopt.springFirstSeminar.domain.Blog;
 import org.sopt.springFirstSeminar.domain.Post;
 import org.sopt.springFirstSeminar.exception.NotFoundException;
@@ -55,8 +56,7 @@ public class PostService {
 
     public BlogContentResponseDTO getBlogContent(final Long postId) {
         Post findPost = getPostById(postId);
-        String createTimeString = findPost.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-
+        String createTimeString = DateFormatUtil.format(findPost.getCreatedAt());
         return BlogContentResponseDTO.of(findPost, createTimeString);
     }
 
