@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.sopt.carrotMarket.constant.Location;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor
-public class Item {
+public class Item extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +37,8 @@ public class Item {
 
     @Setter
     private int textsCount = 0;
+
+
 
     @Builder //빌더패턴
     private Item(Member member, String title, int price, boolean isReceived, String detailInfo, Location hopeTradeSpot) {
