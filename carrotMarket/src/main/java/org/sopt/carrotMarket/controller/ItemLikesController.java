@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/")
+@RequestMapping("${api.path}")
 public class ItemLikesController {
 
     private final ItemLikesService itemLikesService;
