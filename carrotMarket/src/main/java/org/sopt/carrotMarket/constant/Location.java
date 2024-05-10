@@ -8,7 +8,6 @@ import org.sopt.carrotMarket.exception.InvalidValueException;
 
 import java.util.Arrays;
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public enum Location {
     MOKDONG("MOKDONG"),
@@ -21,10 +20,16 @@ public enum Location {
 
     private final String location;
 
-    public static void getEnumResultFromStringResult(String location) {
+    Location(String location) {
+        this.location = location;
+    }
+
+    //스트링값이 Location enum에 있는지 체크
+    public static void checkIsLocationEnumHasString(String location) {
         Arrays.stream(values())
                 .filter(result -> result.location.equals(location))
                 .findFirst()
                 .orElseThrow(() -> new InvalidValueException(ErrorMessage.INVALID_INPUT));
+
     }
 }

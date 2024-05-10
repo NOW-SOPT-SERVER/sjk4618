@@ -31,7 +31,7 @@ public class ItemService {
 
         Member member = findMemberById(memberId);
 
-        Location.getEnumResultFromStringResult((registerItemDTO.hopeTradeSpot()));
+        Location.checkIsLocationEnumHasString((registerItemDTO.hopeTradeSpot()));
 
         Item item = Item.register(
                 member,
@@ -59,7 +59,7 @@ public class ItemService {
 
     public List<GetAllItemsByMemberIdResponseDTO> getAllItemsByLocation(final String location) {
 
-        Location.getEnumResultFromStringResult((location));
+        Location.checkIsLocationEnumHasString((location));
 
         return itemRepository.findByHopeTradeSpot(Location.valueOf(location))
                 .stream()
