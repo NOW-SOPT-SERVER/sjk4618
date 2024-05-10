@@ -29,7 +29,7 @@ public enum Location {
         Arrays.stream(values())
                 .filter(result -> result.location.equals(location))
                 .findFirst()
-                .orElseThrow(() -> new InvalidValueException(ErrorMessage.INVALID_INPUT));
+                .orElseThrow(() -> new InvalidValueException(ErrorMessage.LOCATION_NOT_FOUND));
 
     }
 }

@@ -21,6 +21,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidValueException.class)
     protected ResponseEntity<BaseResponse<?>> handleIllegalArgumentException(final InvalidValueException e) {
-        return ApiResponseUtil.failure(ErrorMessage.INVALID_INPUT);
+        return ApiResponseUtil.failure(e.getErrorMessage());
     }
 }

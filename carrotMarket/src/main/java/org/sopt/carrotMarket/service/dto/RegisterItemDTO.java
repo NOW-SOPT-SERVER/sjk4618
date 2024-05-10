@@ -1,6 +1,7 @@
 package org.sopt.carrotMarket.service.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.sopt.carrotMarket.constant.Location;
 import org.sopt.carrotMarket.domain.Member;
 
@@ -9,10 +10,10 @@ public record RegisterItemDTO(
         @NotBlank
         String title,
 
-        @NotBlank
+        @NotNull
         int price,
 
-        @NotBlank
+        @NotNull
         boolean isReceived,
 
         @NotBlank
