@@ -10,7 +10,8 @@ import org.sopt.springFirstSeminar.service.dto.BlogCreateRequest;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Blog extends BaseTimeEntity{
+public class Blog extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

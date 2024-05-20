@@ -16,12 +16,12 @@ import java.util.Objects;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.of(HttpStatus.BAD_REQUEST.value(), Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage()));
+    protected ResponseEntity<BaseResponse<?>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        return ApiResponseUtil.fail(ErrorMessage.MAX_BLOG_CONTENT);
     }
 
     @ExceptionHandler(NotFoundException.class)
-    protected ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.of(ErrorMessage.MEMBER_NOT_FOUND));
+    protected ResponseEntity<BaseResponse<?>> handleNotFoundException(NotFoundException e) {
+        return ApiResponseUtil.fail(e.getErrorMessage());
     }
 }
