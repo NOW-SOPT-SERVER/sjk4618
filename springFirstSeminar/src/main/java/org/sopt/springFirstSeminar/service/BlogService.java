@@ -7,6 +7,7 @@ import org.sopt.springFirstSeminar.domain.Blog;
 import org.sopt.springFirstSeminar.domain.Member;
 import org.sopt.springFirstSeminar.domain.Post;
 import org.sopt.springFirstSeminar.exception.NotFoundException;
+import org.sopt.springFirstSeminar.external.S3Service;
 import org.sopt.springFirstSeminar.repository.BlogRepository;
 import org.sopt.springFirstSeminar.repository.MemberRepository;
 import org.sopt.springFirstSeminar.repository.PostRepository;
@@ -17,6 +18,8 @@ import org.sopt.springFirstSeminar.service.dto.MemberFindDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+
 @Service
 @RequiredArgsConstructor
 public class BlogService {
@@ -24,10 +27,21 @@ public class BlogService {
     private final BlogRepository blogRepository;
     private final MemberRepository memberRepository;
 
-    public String create(final Long memberId, final BlogCreateRequest blogCreateRequest) {
+    private final S3Service s3Service;
+    private static final String BLOG_S3_UPLOAD_FOLER = "blog/";
+
+
+    @Transactional
+    public String create(Long memberId, BlogCreateRequest createRequest) {
+        //member찾기
         Member member = findMemberById(memberId);
-        Blog blog = blogRepository.save(Blog.create(member, blogCreateRequest));
-        return blog.getId().toString();
+        try {
+            Blog blog = blogRepository.save(Blog.create(member, createRequest.title(), createRequest.description(),
+                    s3Service.uploadImage(BLOG_S3_UPLOAD_FOLER, createRequest.image())));
+            return blog.getId().toString();
+        } catch (RuntimeException | IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Transactional //이거를 적거나 이 메서드 아래에 blogRepository.save()를 해도 됨.

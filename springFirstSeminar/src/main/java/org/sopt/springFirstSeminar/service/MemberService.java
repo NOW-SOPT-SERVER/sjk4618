@@ -2,6 +2,9 @@ package org.sopt.springFirstSeminar.service;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
+import org.sopt.springFirstSeminar.common.jwt.JwtTokenProvider;
+import org.sopt.springFirstSeminar.common.jwt.UserAuthentication;
+import org.sopt.springFirstSeminar.common.jwt.dto.UserJoinResponse;
 import org.sopt.springFirstSeminar.domain.Member;
 import org.sopt.springFirstSeminar.exception.NotFoundException;
 import org.sopt.springFirstSeminar.repository.MemberRepository;
@@ -20,11 +23,20 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Transactional //데이터베이스의 변경사항을 적용하는(있을때) 어노테이션
-    public String createMember(final MemberCreateDTO memberCreateDTO) { //final 이유 : 인자의 불변성보장
-        Member member = Member.create(memberCreateDTO.name(), memberCreateDTO.part(), memberCreateDTO.age());
-        memberRepository.save(member);
-        return member.getId().toString();
+    private final JwtTokenProvider jwtTokenProvider;
+
+    @Transactional
+    public UserJoinResponse createMember(
+            MemberCreateDTO memberCreate
+    ) {
+        Member member = memberRepository.save(
+                Member.create(memberCreate.name(), memberCreate.part(), memberCreate.age())
+        );
+        Long memberId = member.getId();
+        String accessToken = jwtTokenProvider.issueAccessToken(
+                UserAuthentication.createUserAuthentication(memberId)
+        );
+        return UserJoinResponse.of(accessToken, memberId.toString());
     }
 
     public void findById(final Long memberId) {

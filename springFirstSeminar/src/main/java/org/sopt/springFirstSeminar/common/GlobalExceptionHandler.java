@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
 import org.sopt.springFirstSeminar.common.dto.ErrorResponse;
 import org.sopt.springFirstSeminar.exception.NotFoundException;
+import org.sopt.springFirstSeminar.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,5 +24,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     protected ResponseEntity<BaseResponse<?>> handleNotFoundException(NotFoundException e) {
         return ApiResponseUtil.fail(e.getErrorMessage());
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    protected ResponseEntity<ErrorResponse> handlerUnauthorizedException(UnauthorizedException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ErrorResponse.of(e.getErrorMessage().getStatus(), e.getErrorMessage().getMessage()));
     }
 }
