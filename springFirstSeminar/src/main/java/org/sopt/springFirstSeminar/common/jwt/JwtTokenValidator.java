@@ -34,8 +34,4 @@ public class JwtTokenValidator {
                 .getBody();
     }
 
-    public Long getUserFromJwt(String token) {
-        Claims claims = getBody(token);
-        return Long.valueOf(claims.get(USER_ID).toString());
-    }
 }
