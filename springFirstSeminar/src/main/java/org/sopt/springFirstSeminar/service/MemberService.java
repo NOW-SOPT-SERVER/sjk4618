@@ -26,9 +26,7 @@ public class MemberService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
-    public UserJoinResponse createMember(
-            MemberCreateDTO memberCreate
-    ) {
+    public UserJoinResponse createMember(MemberCreateDTO memberCreate) {
         Member member = memberRepository.save(
                 Member.create(memberCreate.name(), memberCreate.part(), memberCreate.age())
         );
