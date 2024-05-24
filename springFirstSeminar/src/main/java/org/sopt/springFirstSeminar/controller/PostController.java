@@ -5,10 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.ApiResponseUtil;
 import org.sopt.springFirstSeminar.common.BaseResponse;
 import org.sopt.springFirstSeminar.common.dto.SuccessMessage;
+import org.sopt.springFirstSeminar.common.dto.SuccessStatusResponse;
 import org.sopt.springFirstSeminar.service.PostService;
 import org.sopt.springFirstSeminar.service.dto.BlogAllContentResponseDTO;
 import org.sopt.springFirstSeminar.service.dto.BlogContentRequestDTO;
 import org.sopt.springFirstSeminar.service.dto.BlogContentResponseDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

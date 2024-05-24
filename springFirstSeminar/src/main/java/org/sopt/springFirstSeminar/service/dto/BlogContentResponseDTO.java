@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Builder;
+import org.sopt.springFirstSeminar.domain.Blog;
 import org.sopt.springFirstSeminar.domain.Post;
+
+import java.time.LocalDateTime;
 
 @Builder(access = AccessLevel.PRIVATE)
 public record BlogContentResponseDTO(

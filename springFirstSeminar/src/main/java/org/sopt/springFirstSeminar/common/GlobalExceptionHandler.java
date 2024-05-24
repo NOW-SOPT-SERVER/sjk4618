@@ -1,5 +1,6 @@
 package org.sopt.springFirstSeminar.common;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
 import org.sopt.springFirstSeminar.common.dto.ErrorResponse;
 import org.sopt.springFirstSeminar.exception.NotFoundException;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Objects;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

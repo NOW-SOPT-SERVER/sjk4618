@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
 import org.sopt.springFirstSeminar.common.dto.SuccessMessage;
+import org.sopt.springFirstSeminar.common.dto.SuccessStatusResponse;
 
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
