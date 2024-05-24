@@ -8,6 +8,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
 import org.sopt.springFirstSeminar.common.jwt.JwtTokenProvider;
+import org.sopt.springFirstSeminar.common.jwt.JwtTokenValidator;
 import org.sopt.springFirstSeminar.common.jwt.UserAuthentication;
 import org.sopt.springFirstSeminar.exception.UnauthorizedException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +26,7 @@ import static org.sopt.springFirstSeminar.common.jwt.JwtValidationType.VALID_JWT
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenValidator jwtTokenValidator;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -32,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         try {
             final String token = getJwtFromRequest(request);
-            if (jwtTokenProvider.validateToken(token) == VALID_JWT) {
+            if (jwtTokenValidator.validateToken(token) == VALID_JWT) {
                 Long memberId = jwtTokenProvider.getUserFromJwt(token);
                 UserAuthentication authentication = UserAuthentication.createUserAuthentication(memberId);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

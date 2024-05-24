@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
 import org.sopt.springFirstSeminar.common.jwt.JwtTokenProvider;
 import org.sopt.springFirstSeminar.common.jwt.UserAuthentication;
-import org.sopt.springFirstSeminar.common.jwt.dto.UserJoinResponse;
+import org.sopt.springFirstSeminar.common.jwt.dto.TokenResponse;
 import org.sopt.springFirstSeminar.domain.Member;
 import org.sopt.springFirstSeminar.exception.NotFoundException;
 import org.sopt.springFirstSeminar.repository.MemberRepository;
@@ -26,15 +26,15 @@ public class MemberService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
-    public UserJoinResponse createMember(MemberCreateDTO memberCreate) {
+    public TokenResponse createMember(MemberCreateDTO memberCreate) {
         Member member = memberRepository.save(
                 Member.create(memberCreate.name(), memberCreate.part(), memberCreate.age())
         );
         Long memberId = member.getId();
-        String accessToken = jwtTokenProvider.issueAccessToken(
+        String accessToken = jwtTokenProvider.issueTokens(
                 UserAuthentication.createUserAuthentication(memberId)
         );
-        return UserJoinResponse.of(accessToken, memberId.toString());
+        return TokenResponse.of(accessToken, memberId.toString());
     }
 
     public void findById(final Long memberId) {

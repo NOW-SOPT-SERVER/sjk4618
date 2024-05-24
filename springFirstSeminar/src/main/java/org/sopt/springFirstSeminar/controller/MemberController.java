@@ -2,7 +2,7 @@ package org.sopt.springFirstSeminar.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import org.sopt.springFirstSeminar.common.jwt.dto.UserJoinResponse;
+import org.sopt.springFirstSeminar.common.jwt.dto.TokenResponse;
 import org.sopt.springFirstSeminar.service.MemberService;
 import org.sopt.springFirstSeminar.service.dto.MemberCreateDTO;
 import org.sopt.springFirstSeminar.service.dto.MemberFindDTO;
@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -22,10 +21,10 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<UserJoinResponse> postMember(
+    public ResponseEntity<TokenResponse> postMember(
             @RequestBody MemberCreateDTO memberCreate
     ) {
-        UserJoinResponse userJoinResponse = memberService.createMember(memberCreate);
+        TokenResponse userJoinResponse = memberService.createMember(memberCreate);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header("Location", userJoinResponse.userId())
                 .body(
