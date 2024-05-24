@@ -4,7 +4,6 @@ package org.sopt.springFirstSeminar.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.sopt.springFirstSeminar.service.BlogService;
 import org.sopt.springFirstSeminar.service.dto.BlogCreateRequest;
 
 @Entity

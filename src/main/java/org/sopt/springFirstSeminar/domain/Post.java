@@ -3,13 +3,9 @@ package org.sopt.springFirstSeminar.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.sopt.springFirstSeminar.service.dto.BlogContentRequestDTO;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter

@@ -2,9 +2,6 @@ package org.sopt.springFirstSeminar.service;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
-import org.sopt.springFirstSeminar.common.dto.ErrorResponse;
-import org.sopt.springFirstSeminar.common.dto.SuccessMessage;
-import org.sopt.springFirstSeminar.common.dto.SuccessStatusResponse;
 import org.sopt.springFirstSeminar.common.util.DateFormatUtil;
 import org.sopt.springFirstSeminar.domain.Blog;
 import org.sopt.springFirstSeminar.domain.Post;
@@ -17,10 +14,7 @@ import org.sopt.springFirstSeminar.service.dto.BlogContentResponseDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)

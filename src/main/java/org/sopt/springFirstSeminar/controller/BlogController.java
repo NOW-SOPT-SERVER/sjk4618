@@ -3,13 +3,10 @@ package org.sopt.springFirstSeminar.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.sopt.springFirstSeminar.common.dto.SuccessMessage;
-import org.sopt.springFirstSeminar.common.dto.SuccessStatusResponse;
 import org.sopt.springFirstSeminar.common.jwt.auth.filter.PrincipalHandler;
 import org.sopt.springFirstSeminar.service.BlogService;
 import org.sopt.springFirstSeminar.service.dto.BlogCreateRequest;
 import org.sopt.springFirstSeminar.service.dto.BlogTitleUpdateRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
