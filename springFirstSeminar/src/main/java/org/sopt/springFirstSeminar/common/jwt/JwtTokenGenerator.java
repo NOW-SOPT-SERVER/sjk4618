@@ -1,9 +1,6 @@
 package org.sopt.springFirstSeminar.common.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.sopt.springFirstSeminar.common.jwt.dto.TokenResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +33,12 @@ public class JwtTokenGenerator {
                 .compact();
     }
 
+    public JwtParser getJwtParser() {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build();
+    }
+
     private Date generateExpireDataByToken(final boolean isAccessToken, Date presentDate) {
        return new Date(presentDate.getTime() + setExpireTimeByToken(isAccessToken));
     }
@@ -53,5 +56,4 @@ public class JwtTokenGenerator {
         String encodedKey = Base64.getEncoder().encodeToString(secretKey.getBytes()); //SecretKey 통해 서명 생성
         return Keys.hmacShaKeyFor(encodedKey.getBytes());   //일반적으로 HMAC (Hash-based Message Authentication Code) 알고리즘 사용
     }
-
 }
