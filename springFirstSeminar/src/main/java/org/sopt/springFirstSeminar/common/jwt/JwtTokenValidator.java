@@ -2,6 +2,8 @@ package org.sopt.springFirstSeminar.common.jwt;
 
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
+import org.sopt.springFirstSeminar.exception.UnauthorizedException;
 import org.springframework.stereotype.Component;
 
 
@@ -11,27 +13,40 @@ public class JwtTokenValidator {
 
     private final JwtTokenGenerator jwtTokenGenerator;
 
-    public JwtValidationType validateToken(String token) {
+    public void validateAccessToken(String accessToken) {
         try {
-            final Claims claims = getBody(token);
-            return JwtValidationType.VALID_JWT;
+            parseToken(accessToken);
+        } catch (ExpiredJwtException e) {
+            throw new UnauthorizedException(ErrorMessage.EXPIRED_ACCESS_TOKEN);
         } catch (MalformedJwtException ex) {
-            return JwtValidationType.INVALID_JWT_TOKEN;
-        } catch (ExpiredJwtException ex) {
-            return JwtValidationType.EXPIRED_JWT_TOKEN;
+            throw new UnauthorizedException(ErrorMessage.INVALID_ACCESS_TOKEN);
         } catch (UnsupportedJwtException ex) {
-            return JwtValidationType.UNSUPPORTED_JWT_TOKEN;
+            throw new UnauthorizedException(ErrorMessage.UNSUPPORTED_ACCESS_TOKEN);
         } catch (IllegalArgumentException ex) {
-            return JwtValidationType.EMPTY_JWT;
+            throw new UnauthorizedException(ErrorMessage.EMPTY_ACCESS_TOKEN);
+        } catch (SignatureException ex) {
+            throw new UnauthorizedException(ErrorMessage.JWT_SIGNATURE_EXCEPTION);
         }
     }
 
-    private Claims getBody(final String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(jwtTokenGenerator.getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+    public void validateRefreshToken(String refreshToken) {
+        try {
+            parseToken(refreshToken);
+        } catch (ExpiredJwtException e) {
+            throw new UnauthorizedException(ErrorMessage.EXPIRED_REFRESH_TOKEN);
+        } catch (Exception e) {
+            throw new UnauthorizedException(ErrorMessage.INVALID_REFRESH_TOKEN_VALUE);
+        }
     }
 
+    public void equalsRefreshToken(String refreshToken, String storedRefreshToken) {
+        if (!refreshToken.equals(storedRefreshToken)) {
+            throw new UnauthorizedException(ErrorMessage.MISMATCH_REFRESH_TOKEN);
+        }
+    }
+
+    private void parseToken(String token) {
+        JwtParser jwtParser = jwtTokenGenerator.getJwtParser();
+        jwtParser.parseClaimsJws(token);
+    }
 }

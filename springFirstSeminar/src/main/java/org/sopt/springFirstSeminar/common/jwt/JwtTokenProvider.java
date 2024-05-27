@@ -1,6 +1,7 @@
 package org.sopt.springFirstSeminar.common.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.jwt.dto.Token;
 import org.sopt.springFirstSeminar.common.jwt.dto.TokenResponse;
@@ -20,12 +21,10 @@ public class JwtTokenProvider {
                 jwtTokenGenerator.generateToken(userId, false));
     }
 
-    public Long getUserFromJwt(String token) {
-        Claims claims = getBody(token);
-        return Long.valueOf(claims.get(USER_ID).toString());
+    public Long getSubject(String accessToken) {
+        JwtParser jwtParser = jwtTokenGenerator.getJwtParser();
+        return Long.valueOf(jwtParser.parseClaimsJws(accessToken)
+                .getBody()
+                .getSubject());
     }
-
-
-
-
 }
