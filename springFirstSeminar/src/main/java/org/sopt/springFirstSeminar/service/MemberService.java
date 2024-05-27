@@ -2,8 +2,12 @@ package org.sopt.springFirstSeminar.service;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
+import org.sopt.springFirstSeminar.common.jwt.JwtTokenGenerator;
 import org.sopt.springFirstSeminar.common.jwt.JwtTokenProvider;
 import org.sopt.springFirstSeminar.common.jwt.UserAuthentication;
+import org.sopt.springFirstSeminar.common.jwt.auth.RefreshToken;
+import org.sopt.springFirstSeminar.common.jwt.auth.redis.repository.RefreshTokenRepository;
+import org.sopt.springFirstSeminar.common.jwt.dto.Token;
 import org.sopt.springFirstSeminar.common.jwt.dto.TokenResponse;
 import org.sopt.springFirstSeminar.domain.Member;
 import org.sopt.springFirstSeminar.exception.NotFoundException;
@@ -24,17 +28,23 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
-    public TokenResponse createMember(MemberCreateDTO memberCreate) {
-        Member member = memberRepository.save(
+    public TokenResponse createMember(String token, MemberCreateDTO memberCreate) {
+        Member createdMember = memberRepository.save(
                 Member.create(memberCreate.name(), memberCreate.part(), memberCreate.age())
         );
-        Long memberId = member.getId();
-        String accessToken = jwtTokenProvider.issueTokens(
-                UserAuthentication.createUserAuthentication(memberId)
-        );
-        return TokenResponse.of(accessToken, memberId.toString());
+
+        Long createdMemberId = createdMember.getId();
+        Token issuedToken = jwtTokenProvider.issueTokens(createdMemberId);
+        updateRefreshToken(issuedToken.refreshToken(), createdMember);
+
+        return TokenResponse.of(issuedToken.accessToken(), issuedToken.refreshToken(), createdMemberId);
+    }
+
+    private void updateRefreshToken(String refreshToken, Member member) {
+        refreshTokenRepository.save(RefreshToken.of(member.getId(), refreshToken));
     }
 
     public void findById(final Long memberId) {

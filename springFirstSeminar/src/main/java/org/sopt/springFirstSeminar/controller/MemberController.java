@@ -2,6 +2,11 @@ package org.sopt.springFirstSeminar.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.parser.Authorization;
+import org.sopt.springFirstSeminar.common.ApiResponseUtil;
+import org.sopt.springFirstSeminar.common.BaseResponse;
+import org.sopt.springFirstSeminar.common.Constant;
+import org.sopt.springFirstSeminar.common.dto.SuccessMessage;
 import org.sopt.springFirstSeminar.common.jwt.dto.TokenResponse;
 import org.sopt.springFirstSeminar.service.MemberService;
 import org.sopt.springFirstSeminar.service.dto.MemberCreateDTO;
@@ -21,15 +26,12 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<TokenResponse> postMember(
-            @RequestBody MemberCreateDTO memberCreate
-    ) {
-        TokenResponse userJoinResponse = memberService.createMember(memberCreate);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .header("Location", userJoinResponse.userId())
-                .body(
-                        userJoinResponse
-                );
+    public ResponseEntity<BaseResponse<?>> postMember(@RequestHeader(Constant.AUTHORIZATION) final String token,
+                                                      @RequestBody MemberCreateDTO memberCreate)
+    {
+        final TokenResponse userJoinResponse = memberService.createMember(token, memberCreate);
+
+        return ApiResponseUtil.success(SuccessMessage.MEMBER_CREATE_SUCCESS, userJoinResponse);
     }
 
     @GetMapping("/{memberId}")
@@ -47,5 +49,4 @@ public class MemberController {
     public ResponseEntity<List<MemberDataDTO>> getAllMemberList() {
         return ResponseEntity.ok(memberService.getAllMemberList());
     }
-
 }

@@ -15,10 +15,13 @@ import java.util.Date;
 public class JwtTokenGenerator {
     @Value("${jwt.secret}")
     private String secretKey;
-    @Value("${jwt.access-token-expire-time}")
-    private long ACCESS_TOKEN_EXPIRE_TIME;
-    @Value("${jwt.refresh-token-expire-time}")
-    private long REFRESH_TOKEN_EXPIRE_TIME;
+//    @Value("${jwt.access-token-expire-time}")
+//    private long ACCESS_TOKEN_EXPIRE_TIME;
+//    @Value("${jwt.refresh-token-expire-time}")
+//    private long REFRESH_TOKEN_EXPIRE_TIME;
+
+    private final long accessExpiration = 24 * 60 * 60 * 100L * 14;
+    private final long refreshExpiration = 24 * 60 * 60 * 1000L * 14;
 
     public String generateToken(final Long userId, boolean isAccessToken) {
         final Date presentDate = new Date();
@@ -46,9 +49,9 @@ public class JwtTokenGenerator {
     //토근에 따라 만료시간 다름
     private long setExpireTimeByToken(final boolean isAccessToken) {
         if (isAccessToken) {
-            return ACCESS_TOKEN_EXPIRE_TIME;
+            return accessExpiration;
         } else {
-            return REFRESH_TOKEN_EXPIRE_TIME;
+            return refreshExpiration;
         }
     }
 

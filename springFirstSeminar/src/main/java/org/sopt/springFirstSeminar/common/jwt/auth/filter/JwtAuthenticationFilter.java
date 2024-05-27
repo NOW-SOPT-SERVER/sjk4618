@@ -4,7 +4,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.Constant;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
@@ -24,8 +23,8 @@ import java.io.IOException;
 
 import static org.sopt.springFirstSeminar.common.jwt.UserAuthentication.createUserAuthentication;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -54,7 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         authentication.setDetails(webAuthenticationDetails);
     }
 
-    //accessToken 가져오기
+    //토큰 추출
     private String getAccessToken(final HttpServletRequest request) {
         String accessToken = request.getHeader(Constant.AUTHORIZATION);
         if (StringUtils.hasText(accessToken) && accessToken.startsWith(Constant.BEARER)) {
