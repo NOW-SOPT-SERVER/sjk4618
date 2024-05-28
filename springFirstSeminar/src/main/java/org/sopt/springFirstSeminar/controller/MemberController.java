@@ -7,6 +7,7 @@ import org.sopt.springFirstSeminar.common.ApiResponseUtil;
 import org.sopt.springFirstSeminar.common.BaseResponse;
 import org.sopt.springFirstSeminar.common.Constant;
 import org.sopt.springFirstSeminar.common.dto.SuccessMessage;
+import org.sopt.springFirstSeminar.common.jwt.auth.MemberId;
 import org.sopt.springFirstSeminar.common.jwt.dto.TokenResponse;
 import org.sopt.springFirstSeminar.service.MemberService;
 import org.sopt.springFirstSeminar.service.dto.MemberCreateDTO;
@@ -26,17 +27,19 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<BaseResponse<?>> postMember(@RequestHeader(Constant.AUTHORIZATION) final String token,
-                                                      @RequestBody MemberCreateDTO memberCreate)
+    public ResponseEntity<BaseResponse<?>> postMember(@RequestBody MemberCreateDTO memberCreate)
     {
-        final TokenResponse userJoinResponse = memberService.createMember(token, memberCreate);
+        final TokenResponse memberJoinResponse = memberService.createMember(memberCreate);
 
-        return ApiResponseUtil.success(SuccessMessage.MEMBER_CREATE_SUCCESS, userJoinResponse);
+        return ApiResponseUtil.success(SuccessMessage.MEMBER_CREATE_SUCCESS, memberJoinResponse);
     }
 
-    @GetMapping("/{memberId}")
-    public ResponseEntity<MemberFindDTO> findMemberById(@PathVariable final Long memberId) {
-        return ResponseEntity.ok(memberService.findMemberById(memberId));
+    @GetMapping
+    public ResponseEntity<BaseResponse<?>> findMemberById(@MemberId final Long memberId) {
+
+        final MemberFindDTO memberFindDTO = memberService.findMemberById(memberId);
+
+        return ApiResponseUtil.success(SuccessMessage.MEMBER_FIND_SUCCESS, memberFindDTO);
     }
 
     @DeleteMapping("/{memberId}")

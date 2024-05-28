@@ -21,9 +21,9 @@ public class RefreshToken {
     @Indexed
     private String refreshToken;
 
-    public static RefreshToken of(final Long userId, final String refreshToken) {
+    public static RefreshToken of(final Long memberId, final String refreshToken) {
         return RefreshToken.builder()
-                .id(userId)
+                .id(memberId)
                 .refreshToken(refreshToken)
                 .build();
     }

@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.sopt.springFirstSeminar.common.Constant;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
 import org.sopt.springFirstSeminar.common.jwt.JwtTokenProvider;
@@ -25,6 +26,7 @@ import static org.sopt.springFirstSeminar.common.jwt.UserAuthentication.createUs
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -33,9 +35,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        final String accessToken = getAccessToken(request);
-        jwtTokenValidator.validateAccessToken(accessToken);
-        doAuthentication(request, jwtTokenProvider.getSubject(accessToken));
+        try {
+            final String accessToken = getAccessToken(request);
+            jwtTokenValidator.validateAccessToken(accessToken);
+            doAuthentication(request, jwtTokenProvider.getSubject(accessToken));
+        } catch(UnauthorizedException e){
+            log.info("———");
+        }
         filterChain.doFilter(request, response);
     }
 

@@ -5,10 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
 import org.sopt.springFirstSeminar.exception.UnauthorizedException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 
 @RequiredArgsConstructor
-@Component
+@Service
 public class JwtTokenValidator {
 
     private final JwtTokenGenerator jwtTokenGenerator;

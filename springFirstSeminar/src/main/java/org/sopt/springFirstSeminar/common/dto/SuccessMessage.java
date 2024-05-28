@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum SuccessMessage {
 
-    MEMBER_CREATE_SUCCESS(HttpStatus.CREATED.value(), "유저 생성이 완료되었습니다."),
+    MEMBER_CREATE_SUCCESS(HttpStatus.CREATED.value(), "유저 생성에 성공했습니다."),
+    MEMBER_FIND_SUCCESS(HttpStatus.OK.value(), "유저 검색에 성공했습니다."),
+
 
     BLOG_CREATE_SUCCESS(HttpStatus.CREATED.value(), "블로그 생성이 완료되었습니다."),
     BLOG_CONTENT_CREATE_SUCCESS(HttpStatus.CREATED.value(), "블로그에 글 작성이 완료되었습니다."),

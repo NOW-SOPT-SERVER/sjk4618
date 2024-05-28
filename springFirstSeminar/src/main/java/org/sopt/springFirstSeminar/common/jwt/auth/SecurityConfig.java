@@ -1,9 +1,10 @@
-package org.sopt.springFirstSeminar.common.jwt.auth.filter;
+package org.sopt.springFirstSeminar.common.jwt.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.jwt.JwtTokenProvider;
 import org.sopt.springFirstSeminar.common.jwt.JwtTokenValidator;
-import org.sopt.springFirstSeminar.common.jwt.auth.CustomAccessDeniedHandler;
+import org.sopt.springFirstSeminar.common.jwt.auth.filter.CustomJwtAuthenticationEntryPoint;
+import org.sopt.springFirstSeminar.common.jwt.auth.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,7 +26,7 @@ public class SecurityConfig {
     private final JwtTokenValidator jwtTokenValidator;
 
 
-    private static final String[] AUTH_WHITE_LIST = {"/api/v1/member"};
+    private static final String[] AUTH_WHITE_LIST = {"/api/v1/member", "/test"};
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

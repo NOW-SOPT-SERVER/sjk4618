@@ -23,6 +23,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -30,21 +31,26 @@ public class MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
 
+    //멤버가입
     @Transactional
-    public TokenResponse createMember(String token, MemberCreateDTO memberCreate) {
+    public TokenResponse createMember(MemberCreateDTO memberCreate) {
+
         Member createdMember = memberRepository.save(
                 Member.create(memberCreate.name(), memberCreate.part(), memberCreate.age())
         );
-
         Long createdMemberId = createdMember.getId();
         Token issuedToken = jwtTokenProvider.issueTokens(createdMemberId);
-        updateRefreshToken(issuedToken.refreshToken(), createdMember);
+        updateRefreshToken(issuedToken.refreshToken(), createdMemberId);
 
         return TokenResponse.of(issuedToken.accessToken(), issuedToken.refreshToken(), createdMemberId);
     }
 
-    private void updateRefreshToken(String refreshToken, Member member) {
-        refreshTokenRepository.save(RefreshToken.of(member.getId(), refreshToken));
+
+
+
+
+    private void updateRefreshToken(String refreshToken, Long memberId) {
+        refreshTokenRepository.save(RefreshToken.of(memberId, refreshToken));
     }
 
     public void findById(final Long memberId) {
