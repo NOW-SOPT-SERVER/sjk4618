@@ -21,7 +21,7 @@ public class ItemController {
 
     @PostMapping("/item")
     public ResponseEntity<BaseResponse<?>> registerItem(@RequestHeader final Long memberId,
-                                                        @RequestBody final RegisterItemDTO registerItemDTO) {
+                                                        @ModelAttribute final RegisterItemDTO registerItemDTO) {
         itemService.registerItem(memberId, registerItemDTO);
         return ApiResponseUtil.success(SuccessMessage.ITEM_REGISTER_SUCCESS);
     }
