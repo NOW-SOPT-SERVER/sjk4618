@@ -26,6 +26,7 @@ public enum ErrorMessage {
     INVALID_REFRESH_TOKEN_VALUE(HttpStatus.UNAUTHORIZED.value(), "리프레시 토큰의 값이 올바르지 않습니다."),
     EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED.value(),"리프레시 토큰이 만료되었습니다. 다시 로그인해 주세요."),
     MISMATCH_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED.value(),  "리프레시 토큰이 일치하지 않습니다."),
+    REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED.value(), "리프레시 토큰을 찾을 수 없습니다."),
 
 
     ;

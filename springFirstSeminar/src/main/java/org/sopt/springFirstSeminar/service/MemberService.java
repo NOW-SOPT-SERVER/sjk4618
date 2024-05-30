@@ -1,20 +1,22 @@
 package org.sopt.springFirstSeminar.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.dto.ErrorMessage;
-import org.sopt.springFirstSeminar.common.jwt.JwtTokenGenerator;
 import org.sopt.springFirstSeminar.common.jwt.JwtTokenProvider;
-import org.sopt.springFirstSeminar.common.jwt.UserAuthentication;
+import org.sopt.springFirstSeminar.common.jwt.JwtTokenValidator;
 import org.sopt.springFirstSeminar.common.jwt.auth.RefreshToken;
 import org.sopt.springFirstSeminar.common.jwt.auth.redis.repository.RefreshTokenRepository;
 import org.sopt.springFirstSeminar.common.jwt.dto.Token;
-import org.sopt.springFirstSeminar.common.jwt.dto.TokenResponse;
+import org.sopt.springFirstSeminar.common.jwt.dto.TokenAndUserIdResponse;
 import org.sopt.springFirstSeminar.domain.Member;
 import org.sopt.springFirstSeminar.exception.NotFoundException;
+import org.sopt.springFirstSeminar.exception.UnauthorizedException;
 import org.sopt.springFirstSeminar.repository.MemberRepository;
 import org.sopt.springFirstSeminar.service.dto.MemberCreateDTO;
 import org.sopt.springFirstSeminar.service.dto.MemberFindDTO;
 import org.sopt.springFirstSeminar.service.dto.MemberDataDTO;
+import org.sopt.springFirstSeminar.service.dto.ReissueRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,10 +32,11 @@ public class MemberService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final JwtTokenValidator jwtTokenValidator;
 
     //멤버가입
     @Transactional
-    public TokenResponse createMember(MemberCreateDTO memberCreate) {
+    public TokenAndUserIdResponse createMember(MemberCreateDTO memberCreate) {
 
         Member createdMember = memberRepository.save(
                 Member.create(memberCreate.name(), memberCreate.part(), memberCreate.age())
@@ -42,15 +45,55 @@ public class MemberService {
         Token issuedToken = jwtTokenProvider.issueTokens(createdMemberId);
         updateRefreshToken(issuedToken.refreshToken(), createdMemberId);
 
-        return TokenResponse.of(issuedToken.accessToken(), issuedToken.refreshToken(), createdMemberId);
+        return TokenAndUserIdResponse.of(issuedToken, createdMemberId);
+    }
+
+    @Transactional
+    public TokenAndUserIdResponse reissue(final String refreshToken, final ReissueRequest reissueRequest) {
+
+        Long memberId = reissueRequest.memberId();
+        validateRefreshToken(refreshToken,memberId);
+        Member member = findMemberBy(memberId);
+        Token issueedToken = jwtTokenProvider.issueTokens(memberId);
+        updateRefreshToken(issueedToken.refreshToken(), memberId);
+        return TokenAndUserIdResponse.of(issueedToken, memberId);
+
+
     }
 
 
+    private void validateRefreshToken(final String refreshToken, final Long userId) {
+        try {
+            jwtTokenValidator.validateRefreshToken(refreshToken);
+            String storedRefreshToken = getRefreshToken(userId);
+            jwtTokenValidator.equalsRefreshToken(refreshToken, storedRefreshToken);
+        } catch (UnauthorizedException e) {
+            signOut(userId);
+            throw e;
+        }
+    }
 
+    private String getRefreshToken(final Long memberId) {
+        try {
+            return getRefreshTokenFromRedis(memberId);
+        } catch (EntityNotFoundException e) {
+            throw new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND);
+        }
+    }
 
+    private String getRefreshTokenFromRedis(Long userId) {
+        RefreshToken storedRefreshToken = refreshTokenRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.REFRESH_TOKEN_NOT_FOUND));
+        return storedRefreshToken.getRefreshToken();
+    }
 
     private void updateRefreshToken(String refreshToken, Long memberId) {
         refreshTokenRepository.save(RefreshToken.of(memberId, refreshToken));
+    }
+
+    public void signOut(final Long memberId) {
+        Member findMember = findMemberBy(memberId);
+        deleteRefreshToken(findMember);
     }
 
     public void findById(final Long memberId) {
@@ -58,9 +101,19 @@ public class MemberService {
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND));
     }
 
+    private void deleteRefreshToken(final Member member) {
+        refreshTokenRepository.deleteById(member.getId());
+    }
+
     public MemberFindDTO findMemberById(final Long memberId) {
         return MemberFindDTO.of(findMember(memberId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND)));
+    }
+
+    public Member findMemberBy(final Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(
+                () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND));
+
     }
 
     @Transactional

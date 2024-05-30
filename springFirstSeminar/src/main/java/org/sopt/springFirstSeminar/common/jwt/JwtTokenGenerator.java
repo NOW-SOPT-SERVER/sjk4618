@@ -2,9 +2,7 @@ package org.sopt.springFirstSeminar.common.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import org.sopt.springFirstSeminar.common.jwt.dto.TokenResponse;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -20,8 +18,8 @@ public class JwtTokenGenerator {
 //    @Value("${jwt.refresh-token-expire-time}")
 //    private long REFRESH_TOKEN_EXPIRE_TIME;
 
-    private final long accessExpiration = 24 * 60 * 60 * 100L * 14;
-    private final long refreshExpiration = 24 * 60 * 60 * 1000L * 14;
+    private final long accessExpiration = 1 * 60 * 1000L; //1분으로 테스트
+    private final long refreshExpiration = 60 * 60 * 1000L; //60분으로 테스트
 
     public String generateToken(final Long userId, boolean isAccessToken) {
         final Date presentDate = new Date();

@@ -26,7 +26,7 @@ public class SecurityConfig {
     private final JwtTokenValidator jwtTokenValidator;
 
 
-    private static final String[] AUTH_WHITE_LIST = {"/api/v1/member", "/test"};
+    private static final String[] AUTH_WHITE_LIST = {"/api/v1/member/signup", "/test", "/api/v1/member/reissue"};
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -46,7 +46,7 @@ public class SecurityConfig {
                     auth.requestMatchers(AUTH_WHITE_LIST).permitAll();
                     auth.anyRequest().authenticated();
                 })
-//                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, jwtTokenValidator), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, jwtTokenValidator), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
