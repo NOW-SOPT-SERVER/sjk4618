@@ -95,4 +95,21 @@ public class ItemService {
         return memberRepository.findById(memberId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND));
     }
+
+    public void deleteItem(final Long itemId) {
+
+        Item item = findItemById(itemId);
+        try {
+            s3Service.deleteImage(item.getImageUrl());
+        } catch (IOException e) {
+            throw new RuntimeException("이미지 삭제 오류 발생", e);
+        }
+        itemRepository.delete(item);
+    }
+
+    public Item findItemById(final Long itemId) {
+        return itemRepository.findById(itemId).orElseThrow(
+                () -> new NotFoundException(ErrorMessage.ITEM_NOT_FOUND)
+        );
+    }
 }

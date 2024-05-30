@@ -43,5 +43,11 @@ public class ItemController {
         return ApiResponseUtil.success(SuccessMessage.GET_ITEMS_SUCCESS_BY_LOCATION, response);
     }
 
+    @DeleteMapping("/item")
+    public ResponseEntity<BaseResponse<?>> deleteItem(@RequestHeader final Long itemId) {
+        itemService.deleteItem(itemId);
+        return ApiResponseUtil.success(SuccessMessage.ITEM_DELETE_SUCCESS);
+    }
+
 
 }
