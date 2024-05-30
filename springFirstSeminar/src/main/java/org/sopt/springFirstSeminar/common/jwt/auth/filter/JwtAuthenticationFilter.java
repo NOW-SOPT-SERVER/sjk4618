@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             jwtTokenValidator.validateAccessToken(accessToken);
             doAuthentication(request, jwtTokenProvider.getSubject(accessToken));
         } catch(UnauthorizedException e){
-            throw new RuntimeException(String.valueOf(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION));
+//            throw new RuntimeException(String.valueOf(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION));
         }
         filterChain.doFilter(request, response);
     }

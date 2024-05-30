@@ -10,7 +10,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
 public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
-
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
 
@@ -24,7 +23,6 @@ public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
         return hasUserIdAnnotation && isLongType;
     }
 
-    //SecurityContextHolder에 있는 UserId 추출
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         return SecurityContextHolder.getContext()
