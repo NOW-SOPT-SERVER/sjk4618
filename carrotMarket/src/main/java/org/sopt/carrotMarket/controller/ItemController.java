@@ -7,6 +7,7 @@ import org.sopt.carrotMarket.common.dto.SuccessMessage;
 import org.sopt.carrotMarket.service.ItemService;
 import org.sopt.carrotMarket.service.dto.GetAllItemsInfoResponseDTO;
 import org.sopt.carrotMarket.service.dto.RegisterItemDTO;
+import org.sopt.carrotMarket.service.dto.RegisterItemResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,9 @@ public class ItemController {
     @PostMapping("/item")
     public ResponseEntity<BaseResponse<?>> registerItem(@RequestHeader final Long memberId,
                                                         @ModelAttribute final RegisterItemDTO registerItemDTO) {
-        itemService.registerItem(memberId, registerItemDTO);
-        return ApiResponseUtil.success(SuccessMessage.ITEM_REGISTER_SUCCESS);
+        RegisterItemResponseDTO registerItemResponseDTO = itemService.registerItem(memberId, registerItemDTO);
+
+        return ApiResponseUtil.success(SuccessMessage.ITEM_REGISTER_SUCCESS, registerItemResponseDTO);
     }
 
     //memberID에 해당되는 모든 물건 GET

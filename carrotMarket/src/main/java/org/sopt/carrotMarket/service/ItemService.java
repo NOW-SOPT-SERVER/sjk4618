@@ -13,6 +13,7 @@ import org.sopt.carrotMarket.repository.ItemRepository;
 import org.sopt.carrotMarket.repository.MemberRepository;
 import org.sopt.carrotMarket.service.dto.GetAllItemsInfoResponseDTO;
 import org.sopt.carrotMarket.service.dto.RegisterItemDTO;
+import org.sopt.carrotMarket.service.dto.RegisterItemResponseDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +34,7 @@ public class ItemService {
     private static final String BLOG_S3_UPLOAD_FOLER = "blog/";
 
     @Transactional
-    public void registerItem(final Long memberId, final RegisterItemDTO registerItemDTO) {
+    public RegisterItemResponseDTO registerItem(final Long memberId, final RegisterItemDTO registerItemDTO) {
 
         Member member = findMemberById(memberId);
 
@@ -49,6 +50,7 @@ public class ItemService {
                 registerItemDTO.detailInfo(),
                 Location.valueOf(registerItemDTO.hopeTradeSpot()));
         itemRepository.save(item);
+        return RegisterItemResponseDTO.of(item.getId());
 
         } catch (RuntimeException | IOException e) {
             throw new RuntimeException(e.getMessage());

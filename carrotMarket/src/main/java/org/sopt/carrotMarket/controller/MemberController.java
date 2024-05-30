@@ -9,6 +9,7 @@ import org.sopt.carrotMarket.common.dto.SuccessMessage;
 import org.sopt.carrotMarket.domain.Member;
 import org.sopt.carrotMarket.service.MemberService;
 import org.sopt.carrotMarket.service.dto.RegisterMemberRequestDTO;
+import org.sopt.carrotMarket.service.dto.RegisterMemberResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +25,7 @@ public class MemberController {
 
     @PostMapping("/member")
     public ResponseEntity<BaseResponse<?>> createMember(@RequestBody RegisterMemberRequestDTO member) {
-        memberService.registerMember(member);
-        return ApiResponseUtil.success(SuccessMessage.MEMBER_REGISTER_SUCCESS);
+        RegisterMemberResponseDTO registerMemberResponseDTO = memberService.registerMember(member);
+        return ApiResponseUtil.success(SuccessMessage.MEMBER_REGISTER_SUCCESS, registerMemberResponseDTO);
     }
 }
