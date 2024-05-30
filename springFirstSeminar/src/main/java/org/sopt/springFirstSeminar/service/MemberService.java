@@ -53,22 +53,19 @@ public class MemberService {
 
         Long memberId = reissueRequest.memberId();
         validateRefreshToken(refreshToken,memberId);
-        Member member = findMemberBy(memberId);
+        Member member = findMemberById(memberId);
         Token issueedToken = jwtTokenProvider.issueTokens(memberId);
         updateRefreshToken(issueedToken.refreshToken(), memberId);
         return TokenAndUserIdResponse.of(issueedToken, memberId);
-
-
     }
 
-
-    private void validateRefreshToken(final String refreshToken, final Long userId) {
+    private void validateRefreshToken(final String refreshToken, final Long memberId) {
         try {
             jwtTokenValidator.validateRefreshToken(refreshToken);
-            String storedRefreshToken = getRefreshToken(userId);
+            String storedRefreshToken = getRefreshToken(memberId);
             jwtTokenValidator.equalsRefreshToken(refreshToken, storedRefreshToken);
         } catch (UnauthorizedException e) {
-            signOut(userId);
+            signOut(memberId);
             throw e;
         }
     }
@@ -87,33 +84,24 @@ public class MemberService {
         return storedRefreshToken.getRefreshToken();
     }
 
-    private void updateRefreshToken(String refreshToken, Long memberId) {
+    @Transactional
+    public void updateRefreshToken(String refreshToken, Long memberId) {
         refreshTokenRepository.save(RefreshToken.of(memberId, refreshToken));
     }
 
     public void signOut(final Long memberId) {
-        Member findMember = findMemberBy(memberId);
+        Member findMember = findMemberById(memberId);
         deleteRefreshToken(findMember);
     }
 
-    public void findById(final Long memberId) {
-        findMember(memberId).orElseThrow(
-                () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND));
-    }
-
-    private void deleteRefreshToken(final Member member) {
+    @Transactional
+    public void deleteRefreshToken(final Member member) {
         refreshTokenRepository.deleteById(member.getId());
     }
 
-    public MemberFindDTO findMemberById(final Long memberId) {
-        return MemberFindDTO.of(findMember(memberId).orElseThrow(
-                () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND)));
-    }
-
-    public Member findMemberBy(final Long memberId) {
+    public Member findMemberById(final Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND));
-
     }
 
     @Transactional
@@ -121,10 +109,6 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND));
         memberRepository.delete(member);
-    }
-
-    public Optional<Member> findMember(final Long memberId) {
-        return memberRepository.findById(memberId);
     }
 
     public List<MemberDataDTO> getAllMemberList() {
@@ -135,6 +119,4 @@ public class MemberService {
         //.toList : 스트림을 리스트로 변환
         return memberRepository.findAll().stream().map(member -> MemberDataDTO.of(member)).toList();
     }
-
-
 }

@@ -37,7 +37,7 @@ public class MemberController {
     @GetMapping
     public ResponseEntity<BaseResponse<?>> findMemberById(@MemberId final Long memberId) {
 
-        final MemberFindDTO memberFindDTO = memberService.findMemberById(memberId);
+        final MemberFindDTO memberFindDTO = MemberFindDTO.of(memberService.findMemberById(memberId));
 
         return ApiResponseUtil.success(SuccessMessage.MEMBER_FIND_SUCCESS, memberFindDTO);
     }

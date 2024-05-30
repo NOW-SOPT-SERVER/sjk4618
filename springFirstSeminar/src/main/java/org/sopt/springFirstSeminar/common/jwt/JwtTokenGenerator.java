@@ -11,15 +11,15 @@ import java.util.Date;
 
 @Component
 public class JwtTokenGenerator {
+
     @Value("${jwt.secret}")
     private String secretKey;
-//    @Value("${jwt.access-token-expire-time}")
-//    private long ACCESS_TOKEN_EXPIRE_TIME;
-//    @Value("${jwt.refresh-token-expire-time}")
-//    private long REFRESH_TOKEN_EXPIRE_TIME;
 
-    private final long accessExpiration = 1 * 60 * 1000L; //1분으로 테스트
-    private final long refreshExpiration = 60 * 60 * 1000L; //60분으로 테스트
+    @Value("${jwt.access-token-expire-time}") //1분
+    private long ACCESS_TOKEN_EXPIRE_TIME;
+
+    @Value("${jwt.refresh-token-expire-time}") //1시간
+    private long REFRESH_TOKEN_EXPIRE_TIME;
 
     public String generateToken(final Long userId, boolean isAccessToken) {
         final Date presentDate = new Date();
@@ -47,9 +47,9 @@ public class JwtTokenGenerator {
     //토근에 따라 만료시간 다름
     private long setExpireTimeByToken(final boolean isAccessToken) {
         if (isAccessToken) {
-            return accessExpiration;
+            return ACCESS_TOKEN_EXPIRE_TIME;
         } else {
-            return refreshExpiration;
+            return REFRESH_TOKEN_EXPIRE_TIME;
         }
     }
 
