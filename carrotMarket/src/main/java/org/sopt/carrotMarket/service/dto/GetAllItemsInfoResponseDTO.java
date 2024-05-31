@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public record GetAllItemsInfoResponseDTO(
         Long itemId,
         String title,
+        String imageUrl,
         int price,
         boolean isReceived,
         String detailInfo,
@@ -24,7 +25,7 @@ public record GetAllItemsInfoResponseDTO(
     //지역별로 받아올 때는, 내가 좋아요를 누른지가 필요하지 않아서 builder를 이용했다.
 
     @Builder //빌더패턴
-    public GetAllItemsInfoResponseDTO(Long itemId, String title, int price,
+    public GetAllItemsInfoResponseDTO(Long itemId, String title, String imageUrl,int price,
                                       boolean isReceived, String detailInfo,
                                       boolean isLikedByMember, int likesCount,
                                       String hopeTradeSpot, int textedCount,
@@ -32,6 +33,7 @@ public record GetAllItemsInfoResponseDTO(
     ) {
         this.itemId = itemId;
         this.title = title;
+        this.imageUrl = imageUrl;
         this.price = price;
         this.isReceived = isReceived;
         this.detailInfo = detailInfo;
@@ -46,6 +48,7 @@ public record GetAllItemsInfoResponseDTO(
         return GetAllItemsInfoResponseDTO.builder()
                 .itemId(item.getId())
                 .title(item.getTitle())
+                .imageUrl(item.getImageUrl())
                 .price(item.getPrice())
                 .isReceived(item.isReceived())
                 .detailInfo(item.getDetailInfo())
