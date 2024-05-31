@@ -96,6 +96,7 @@ public class ItemService {
                 () -> new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND));
     }
 
+    @Transactional
     public void deleteItem(final Long itemId) {
 
         Item item = findItemById(itemId);
@@ -104,7 +105,7 @@ public class ItemService {
         } catch (IOException e) {
             throw new RuntimeException("이미지 삭제 오류 발생", e);
         }
-        itemRepository.delete(item);
+        itemRepository.deleteById(itemId);
     }
 
     public Item findItemById(final Long itemId) {
