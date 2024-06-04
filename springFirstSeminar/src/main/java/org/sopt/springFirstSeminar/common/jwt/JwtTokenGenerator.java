@@ -23,7 +23,7 @@ public class JwtTokenGenerator {
 
     public String generateToken(final Long userId, boolean isAccessToken) {
         final Date presentDate = new Date();
-        final Date expireDate = generateExpireDataByToken(isAccessToken, presentDate);
+        final Date expireDate = generateExpireDateByToken(isAccessToken, presentDate);
 
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
@@ -40,7 +40,7 @@ public class JwtTokenGenerator {
                 .build();
     }
 
-    private Date generateExpireDataByToken(final boolean isAccessToken, Date presentDate) {
+    private Date generateExpireDateByToken(final boolean isAccessToken, Date presentDate) {
         return new Date(presentDate.getTime() + setExpireTimeByToken(isAccessToken));
     }
 

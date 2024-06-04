@@ -40,7 +40,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             jwtTokenValidator.validateAccessToken(accessToken);
             doAuthentication(request, jwtTokenProvider.getSubject(accessToken));
         } catch(UnauthorizedException e){
-//            throw new RuntimeException(String.valueOf(ErrorMessage.JWT_UNAUTHORIZED_EXCEPTION));
+            //여기서 throw를 사용하면 filterChain.doFilter(request, response)가 실행되지 않고,
+            log.error("JwtAuthentication Authentication Exception Occurs!");
         }
         filterChain.doFilter(request, response);
     }

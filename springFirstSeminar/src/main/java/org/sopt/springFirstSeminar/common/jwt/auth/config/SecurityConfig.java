@@ -1,8 +1,9 @@
-package org.sopt.springFirstSeminar.common.jwt.auth;
+package org.sopt.springFirstSeminar.common.jwt.auth.config;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.springFirstSeminar.common.jwt.JwtTokenProvider;
 import org.sopt.springFirstSeminar.common.jwt.JwtTokenValidator;
+import org.sopt.springFirstSeminar.common.jwt.auth.CustomAccessDeniedHandler;
 import org.sopt.springFirstSeminar.common.jwt.auth.filter.CustomJwtAuthenticationEntryPoint;
 import org.sopt.springFirstSeminar.common.jwt.auth.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
