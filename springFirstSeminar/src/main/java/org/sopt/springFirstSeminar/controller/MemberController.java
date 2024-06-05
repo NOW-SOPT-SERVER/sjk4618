@@ -2,17 +2,22 @@ package org.sopt.springFirstSeminar.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import org.sopt.springFirstSeminar.common.jwt.dto.UserJoinResponse;
+import org.sopt.springFirstSeminar.common.ApiResponseUtil;
+import org.sopt.springFirstSeminar.common.BaseResponse;
+import org.sopt.springFirstSeminar.common.dto.SuccessMessage;
+import org.sopt.springFirstSeminar.common.jwt.auth.MemberId;
+import org.sopt.springFirstSeminar.common.jwt.dto.TokenAndUserIdResponse;
 import org.sopt.springFirstSeminar.service.MemberService;
 import org.sopt.springFirstSeminar.service.dto.MemberCreateDTO;
 import org.sopt.springFirstSeminar.service.dto.MemberFindDTO;
 import org.sopt.springFirstSeminar.service.dto.MemberDataDTO;
-import org.springframework.http.HttpStatus;
+import org.sopt.springFirstSeminar.service.dto.ReissueRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
+
+import static org.sopt.springFirstSeminar.common.Constant.AUTHORIZATION;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,21 +26,29 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping
-    public ResponseEntity<UserJoinResponse> postMember(
-            @RequestBody MemberCreateDTO memberCreate
-    ) {
-        UserJoinResponse userJoinResponse = memberService.createMember(memberCreate);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .header("Location", userJoinResponse.userId())
-                .body(
-                        userJoinResponse
-                );
+    @PostMapping("/signup")
+    public ResponseEntity<BaseResponse<?>> postMember(@RequestBody MemberCreateDTO memberCreate)
+    {
+        final TokenAndUserIdResponse memberJoinResponse = memberService.createMember(memberCreate);
+
+        return ApiResponseUtil.success(SuccessMessage.MEMBER_CREATE_SUCCESS, memberJoinResponse);
     }
 
-    @GetMapping("/{memberId}")
-    public ResponseEntity<MemberFindDTO> findMemberById(@PathVariable final Long memberId) {
-        return ResponseEntity.ok(memberService.findMemberById(memberId));
+    @GetMapping
+    public ResponseEntity<BaseResponse<?>> findMemberById(@MemberId final Long memberId) {
+
+        final MemberFindDTO memberFindDTO = MemberFindDTO.of(memberService.findMemberById(memberId));
+
+        return ApiResponseUtil.success(SuccessMessage.MEMBER_FIND_SUCCESS, memberFindDTO);
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<BaseResponse<?>> reissue(@RequestHeader(AUTHORIZATION) final String refreshToken,
+                                                   @RequestBody final ReissueRequest reissueRequest) {
+
+        final TokenAndUserIdResponse reissueTokenResponse = memberService.reissue(refreshToken, reissueRequest);
+
+        return ApiResponseUtil.success(SuccessMessage.TOKEN_REISSUE_SUCCESS, reissueTokenResponse);
     }
 
     @DeleteMapping("/{memberId}")
@@ -48,5 +61,4 @@ public class MemberController {
     public ResponseEntity<List<MemberDataDTO>> getAllMemberList() {
         return ResponseEntity.ok(memberService.getAllMemberList());
     }
-
 }

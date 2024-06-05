@@ -33,7 +33,7 @@ public class PostService {
 
     @Transactional
     public String postContent(final Long memberId, final Long blogId, final BlogContentRequestDTO blogContentRequestDTO) {
-        memberService.findById(memberId);
+        memberService.findMemberById(memberId);
 
         Blog blog = fineBlogById(blogId);
 

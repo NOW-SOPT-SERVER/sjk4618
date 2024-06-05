@@ -1,7 +1,11 @@
-package org.sopt.springFirstSeminar.common.jwt.auth.filter;
+package org.sopt.springFirstSeminar.common.jwt.auth.config;
 
 import lombok.RequiredArgsConstructor;
+import org.sopt.springFirstSeminar.common.jwt.JwtTokenProvider;
+import org.sopt.springFirstSeminar.common.jwt.JwtTokenValidator;
 import org.sopt.springFirstSeminar.common.jwt.auth.CustomAccessDeniedHandler;
+import org.sopt.springFirstSeminar.common.jwt.auth.filter.CustomJwtAuthenticationEntryPoint;
+import org.sopt.springFirstSeminar.common.jwt.auth.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,12 +19,15 @@ import org.springframework.security.config.annotation.web.configurers.RequestCac
 @RequiredArgsConstructor
 @EnableWebSecurity //web Security를 사용할 수 있게
 public class SecurityConfig {
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomJwtAuthenticationEntryPoint customJwtAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenValidator jwtTokenValidator;
 
-    private static final String[] AUTH_WHITE_LIST = {"/api/v1/member"};
+
+    private static final String[] AUTH_WHITE_LIST = {"/api/v1/member/signup", "/test", "/api/v1/member/reissue"};
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,10 +42,12 @@ public class SecurityConfig {
                 });
 
 
+        //유저 가입이나 로그인 등 인증 전 단계의 api 허용, 그 외는 인증!
         http.authorizeHttpRequests(auth -> {
                     auth.requestMatchers(AUTH_WHITE_LIST).permitAll();
                     auth.anyRequest().authenticated();
                 })
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, jwtTokenValidator), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

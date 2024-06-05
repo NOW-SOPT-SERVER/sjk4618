@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.sopt.springFirstSeminar.service.dto.MemberFindDTO;
 
 @Entity
 @Getter
@@ -35,5 +36,9 @@ public class Member {
                 .age(age)
                 .part(part)
                 .build();
+    }
+
+    public static Member of(Member member) {
+        return new Member(member.getName(), member.getPart(), member.getAge());
     }
 }
