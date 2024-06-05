@@ -26,7 +26,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("signup")
+    @PostMapping("/signup")
     public ResponseEntity<BaseResponse<?>> postMember(@RequestBody MemberCreateDTO memberCreate)
     {
         final TokenAndUserIdResponse memberJoinResponse = memberService.createMember(memberCreate);
@@ -42,7 +42,7 @@ public class MemberController {
         return ApiResponseUtil.success(SuccessMessage.MEMBER_FIND_SUCCESS, memberFindDTO);
     }
 
-    @PostMapping("reissue")
+    @PostMapping("/reissue")
     public ResponseEntity<BaseResponse<?>> reissue(@RequestHeader(AUTHORIZATION) final String refreshToken,
                                                    @RequestBody final ReissueRequest reissueRequest) {
 

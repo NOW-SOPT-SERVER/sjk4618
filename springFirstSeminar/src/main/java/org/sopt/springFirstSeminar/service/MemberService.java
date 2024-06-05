@@ -71,11 +71,7 @@ public class MemberService {
     }
 
     private String getRefreshToken(final Long memberId) {
-        try {
-            return getRefreshTokenFromRedis(memberId);
-        } catch (EntityNotFoundException e) {
-            throw new NotFoundException(ErrorMessage.MEMBER_NOT_FOUND);
-        }
+        return getRefreshTokenFromRedis(memberId);
     }
 
     private String getRefreshTokenFromRedis(Long userId) {
