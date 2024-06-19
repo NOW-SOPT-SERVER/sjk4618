@@ -21,6 +21,8 @@ public class Item extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    private String imageUrl;
+
     private String title;
 
     private int price;
@@ -41,8 +43,9 @@ public class Item extends BaseTimeEntity {
 
 
     @Builder //빌더패턴
-    private Item(Member member, String title, int price, boolean isReceived, String detailInfo, Location hopeTradeSpot) {
+    private Item(Member member, String imageUrl, String title, int price, boolean isReceived, String detailInfo, Location hopeTradeSpot) {
         this.member = member;
+        this.imageUrl = imageUrl;
         this.title = title;
         this.price = price;
         this.isReceived = isReceived;
@@ -51,9 +54,10 @@ public class Item extends BaseTimeEntity {
     }
 
     //정적팩토리메서드(빌더패턴이용)
-    public static Item register(Member member, String title, int price, boolean isReceived, String detailInfo, Location hopeTradeSpot) {
+    public static Item register(Member member, String imageUrl, String title, int price, boolean isReceived, String detailInfo, Location hopeTradeSpot) {
         return Item.builder()
                 .member(member)
+                .imageUrl(imageUrl)
                 .title(title)
                 .price(price)
                 .isReceived(isReceived)

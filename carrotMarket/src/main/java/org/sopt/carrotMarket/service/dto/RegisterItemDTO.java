@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.sopt.carrotMarket.constant.Location;
 import org.sopt.carrotMarket.domain.Member;
+import org.springframework.web.multipart.MultipartFile;
 
 public record RegisterItemDTO(
 
@@ -20,5 +21,7 @@ public record RegisterItemDTO(
         String detailInfo,
 
         @NotBlank
-        String hopeTradeSpot
+        String hopeTradeSpot,
+
+        MultipartFile image
 ) { }
